@@ -1,5 +1,5 @@
 import express from 'express';
-import bodyParser from 'body-parser';
+// import bodyParser from 'body-parser';
 
 const app = express();
 
@@ -8,12 +8,13 @@ const retailRouter = require('./routes/retail');
 
 const port = 3000;
 
-app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: false,
-  }),
-);
+// app.use(bodyParser.json());
+// app.use(
+//   bodyParser.urlencoded({
+//     extended: false,
+//   }),
+// );
+app.use(express.json())
 
 app.get('/', (req, res) => {
     res.send('Welcom Blueberry!');
