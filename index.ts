@@ -17,7 +17,7 @@ const port = 3000;
 app.use(express.json())
 
 app.get('/', (req, res) => {
-    res.send('Welcom Blueberry!');
+    res.send('Welcome Blueberry!');
 })
 
 // app.use('/', indexRouter);
