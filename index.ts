@@ -1,4 +1,4 @@
-import express from 'express';
+import express = require('express');
 // import bodyParser from 'body-parser';
 
 const app = express();
