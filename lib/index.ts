@@ -1,6 +1,18 @@
 import express = require('express');
+import dotenv = require('dotenv');
+import mysql = require('mysql2');
+// import * as dotenv from "dotenv";
 
 const app = express();
+
+dotenv.config();
+
+// export const db = mysql.createConnection({
+//     host: process.env.DB_HOST,
+//     user: process.env.DB_USER,
+//     password: process.env.DB_PWD,
+//     database: process.env.DB_NAME
+//   });
 
 const wholesaleRouter = require('./routes/wholesale');
 const retailRouter = require('./routes/retail');

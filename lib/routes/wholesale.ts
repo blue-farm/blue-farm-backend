@@ -1,6 +1,9 @@
 import express from 'express';
+import * as orderModel from "../models/order";
+import { Order, BasicOrder } from "../types/order";
 
 var router = express.Router();
+
 
 /* GET users listing. */
 const testItem =
@@ -34,16 +37,25 @@ const testItem =
 }
 
 
-router.get('/', (req, res, next) => {
-    var bPayment = req.query.bPayment;
-    var bShipped = req.query.bShipped;
-    var pageNum = req.query.pageNum;
-    var itemCount = req.query.itemCount;
-    var sort = req.query.sort;
-    console.log('bPayment: ' + bPayment + ', pageNum: ' + pageNum);
-    // res.send('GET request to the wholesale');
-    res.json(testItem);
+router.get("/", async (req, res) => {
+    orderModel.findAll((err: Error, orders: Order[]) => {
+        if (err) {
+            return res.status(500).json({ "errorMessage": err.message });
+        }
+
+        res.status(200).json({ "data": orders });
+    });
 });
+// router.get('/', (req, res, next) => {
+//     var bPayment = req.query.bPayment;
+//     var bShipped = req.query.bShipped;
+//     var pageNum = req.query.pageNum;
+//     var itemCount = req.query.itemCount;
+//     var sort = req.query.sort;
+//     console.log('bPayment: ' + bPayment + ', pageNum: ' + pageNum);
+//     // res.send('GET request to the wholesale');
+//     res.json(testItem);
+// });
 
 router.get('/test', (req, res, next) => {
     res.json(testItem);
