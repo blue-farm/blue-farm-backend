@@ -1,5 +1,6 @@
 import express from 'express';
 import * as orderModel from "../models/order";
+import * as companyModel from "../models/company";
 import { Order, BasicOrder } from "../types/order";
 
 var router = express.Router();
@@ -14,7 +15,7 @@ const testItem =
         name: 'Youjin',
         amount: 2,
         phone: '01012345678',
-        address: '충남 천안시',
+        address: '충남 천안?��',
         payment: true,
         shipped: true,
         delivery: 'direct'
@@ -25,7 +26,7 @@ const testItem =
         name: 'Youjin2',
         amount: 3,
         phone: '01023456789',
-        address: '경북 포항시',
+        address: '경북 ?��?��?��',
         payment: false,
         shipped: false,
         delivery: 'express'
@@ -38,7 +39,7 @@ const testItem =
 
 
 router.get("/", async (req, res) => {
-    orderModel.findAll((err: Error, orders: Order[]) => {
+    companyModel.findAll((err: Error, orders: Order[]) => {
         if (err) {
             return res.status(500).json({ "errorMessage": err.message });
         }
