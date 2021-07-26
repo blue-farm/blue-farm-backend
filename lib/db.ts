@@ -1,5 +1,5 @@
 // var  mysql = require('mysql');
-// var os = require('os');  //í˜¸ìŠ¤íŠ¸ ì´ë¦„ì„ ê°€ì ¸ì˜¤ê¸° ìœ„í•œ ëª¨ë“ˆ
+// var os = require('os');  //?˜¸?Š¤?Š¸ ?´ë¦„ì„ ê°?? ¸?˜¤ê¸? ?œ„?•œ ëª¨ë“ˆ
 import mysql from "mysql2";
 import * as dotenv from "dotenv";
 
@@ -29,12 +29,12 @@ dotenv.config();
 
 // var dbconnection = {
 //     init: function () {
-//         return mysql.createConnection(dbconnInfo.dev);	//ë¡œì»¬ê°œë°œí™˜ê²½
+//         return mysql.createConnection(dbconnInfo.dev);	//ë¡œì»¬ê°œë°œ?™˜ê²?
 //         // var hostname = os.hostname();
 //         // if(hostname === 'S1621N14'){
-//         // 	return mysql.createConnection(dbconnInfo.dev);	//ë¡œì»¬ê°œë°œí™˜ê²½
+//         // 	return mysql.createConnection(dbconnInfo.dev);	//ë¡œì»¬ê°œë°œ?™˜ê²?
 //         // }else{
-//         // 	return mysql.createConnection(dbconnInfo.real);	//cafe24 ì„œë²„í™˜ê²½
+//         // 	return mysql.createConnection(dbconnInfo.real);	//cafe24 ?„œë²„í™˜ê²?
 //         // }
 //     },
 
@@ -53,7 +53,7 @@ const db = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "admin",
-    database: "OnlineStore"
+    database: "blueberry"
 });
 
 db.connect();
