@@ -17,7 +17,7 @@ dotenv.config();
 const wholesaleRouter = require('./routes/wholesale');
 const retailRouter = require('./routes/retail');
 
-const port = 3000;
+const port = 80;
 
 app.use(express.json())
 
