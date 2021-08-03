@@ -23,6 +23,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res: Response) => {
     console.log("/company post")
     const newCompany: BasicCompany = req.body;
+    console.log(req.body)
     console.log(newCompany)
     companyModel.create(newCompany, (err: Error, companyId: number) => {
         if (err) {
