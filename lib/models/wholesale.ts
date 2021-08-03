@@ -83,6 +83,7 @@ export const findAll2 = (callback: Function) => {
         sum(CASE When w.isDelivered=0 Then w.amount Else 0 End ) As notShippedAmount
     FROM wholesale AS w
     INNER JOIN company AS c ON c.id=w.company_id
+    GROUP BY w.company_id
       `
     console.log(findAllString)
 
@@ -147,6 +148,7 @@ export const findAll = (callback: Function) => {
         sum(CASE When w.isDelivered=0 Then w.amount Else 0 End ) As notShippedAmount
       FROM wholesale AS w
       INNER JOIN company AS c ON c.id=w.company_id
+      GROUP BY w.company_id
       `
 
     const findAllString = `
