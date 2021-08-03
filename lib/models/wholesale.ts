@@ -140,7 +140,7 @@ export const findOne = (wholesaleId: number, callback: Function) => {
         isDelivered,
         isPaid,
         dueDate,
-        company_id,
+        company_id
       FROM wholesale
       WHERE id=?`
       console.log(queryString)
