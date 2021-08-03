@@ -3,13 +3,13 @@ export interface BasicRetail {
 }
   
 export interface Retail extends BasicRetail {
-  date:       Date,
+  date:       string,
   name:       string,
   amount:     number,
   phone:      string,
   addr1:      string,
   addr2:      string,
-  zip:        string,
+  zip:        number,
   isPaid:     boolean,
   isShipped:  boolean,
   delivery:   boolean,
