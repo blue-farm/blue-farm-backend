@@ -45,7 +45,7 @@ export const findAll1 = (callback: Function) => {
         *
       FROM wholesale
       `
-      console.log(findAllString)
+    console.log(findAllString)
 
     db.query(findAllString, (err: any, result: any) => {
         if (err) { callback(err) }
@@ -64,6 +64,66 @@ export const findAll1 = (callback: Function) => {
                 isPaid: row.isPaid,
                 dueDate: row.dueDate,
                 company_id: row.company_id,
+            }
+
+            wholesales.push(wholesale);
+
+        });
+        callback(null, wholesales);
+    });
+}
+
+export const findAll2 = (callback: Function) => {
+
+    const findAllString = `
+    SELECT 
+        w.company_id AS id,
+        c.name AS name,
+        sum(w.amount) As totalAmount,
+        sum(CASE When w.isDelivered=0 Then w.amount Else 0 End ) As notShippedAmount
+    FROM wholesale AS w
+    INNER JOIN company AS c ON c.id=w.company_id
+      `
+    console.log(findAllString)
+
+    db.query(findAllString, (err: any, result: any) => {
+        if (err) { callback(err) }
+
+        const row1 = <RowDataPacket[]>result;
+        const wholesales: any[] = [];
+        console.log(row1)
+
+        row1.forEach(row => {
+            const wholesale: any = {
+                row
+            }
+
+            wholesales.push(wholesale);
+
+        });
+        callback(null, wholesales);
+    });
+}
+
+export const findAll3 = (callback: Function) => {
+
+    const findAllString = `
+    SELECT 
+        sum(CASE When isDelivered=0 Then amount Else 0 End ) As notShippedAmount
+    FROM wholesale
+      `
+    console.log(findAllString)
+
+    db.query(findAllString, (err: any, result: any) => {
+        if (err) { callback(err) }
+
+        const row1 = <RowDataPacket[]>result;
+        const wholesales: any[] = [];
+        console.log(row1)
+
+        row1.forEach(row => {
+            const wholesale: any = {
+                row
             }
 
             wholesales.push(wholesale);
@@ -94,8 +154,8 @@ export const findAll = (callback: Function) => {
         *
       FROM wholesale
       `
-      console.log(countString)
-      console.log(findCompanyString)
+    console.log(countString)
+    console.log(findCompanyString)
 
     db.query(countString, findCompanyString, findAllString, (err: any, result: any) => {
         if (err) { callback(err) }
@@ -181,7 +241,7 @@ export const findOne = (wholesaleId: number, callback: Function) => {
         company_id
       FROM wholesale
       WHERE id=?`
-      console.log(queryString)
+    console.log(queryString)
 
     db.query(queryString, wholesaleId, (err: any, result: any) => {
         if (err) { callback(err) }
@@ -208,7 +268,7 @@ export const update = (wholesale: Wholesale, callback: Function) => {
 
     db.query(
         queryString,
-        [wholesale.date, wholesale.amount, wholesale.pricePerKg, wholesale.isDelivered, wholesale.isPaid, wholesale.dueDate, wholesale.company_id, wholesale.id, ],
+        [wholesale.date, wholesale.amount, wholesale.pricePerKg, wholesale.isDelivered, wholesale.isPaid, wholesale.dueDate, wholesale.company_id, wholesale.id,],
         (err: any, result: any) => {
             if (err) { callback(err) }
             callback(null);
