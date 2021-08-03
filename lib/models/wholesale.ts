@@ -66,8 +66,11 @@ export const findAll = (callback: Function) => {
         if (err) { callback(err) }
 
         const row1 = <RowDataPacket[]>result[0];
+        console.log(row1)
         const row2 = <RowDataPacket[]>result[1];
+        console.log(row2)
         const row3 = <RowDataPacket[]>result[2];
+        console.log(row3)
         let notShippedAmount: number = 0;
         let companies: Companies[] = [];
         // const wholesales: Wholesale[] = [];
