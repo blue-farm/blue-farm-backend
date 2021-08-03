@@ -43,32 +43,32 @@ const testItem =
 
 //Wholesale
 router.get("/", async (req, res) => {
-    wholesaleModel.findAll((err: Error, orders: Order[]) => {
+    wholesaleModel.findAll((err: Error, wholesale: Wholesale[]) => {
         if (err) {
             return res.status(500).json({ "errorMessage": err.message });
         }
 
-        res.status(200).json({ "data": orders });
+        res.status(200).json({ "data": wholesale });
     });
 });
 
 router.post("/", async (req: Request, res: Response) => {
     const newWholesale: BasicWholesale = req.body;
-    wholesaleModel.create(newWholesale.company_id, newWholesale, (err: Error, orderId: number) => {
+    wholesaleModel.create(newWholesale.company_id, newWholesale, (err: Error, wholesale: number) => {
         if (err) {
             return res.status(500).json({ "message": err.message });
         }
-        res.status(200).json({ "orderId": orderId });
+        res.status(200).json({ "wholesaleId": wholesale });
     });
 });
 
 router.get("/:id", async (req: Request, res: Response) => {
     const companyId: number = Number(req.params.id);
-    wholesaleModel.findOne(companyId, (err: Error, order: Order) => {
+    wholesaleModel.findOne(companyId, (err: Error, wholesale: Wholesale) => {
         if (err) {
             return res.status(500).json({ "message": err.message });
         }
-        res.status(200).json({ "data": order });
+        res.status(200).json({ "data": wholesale });
     })
 });
 
@@ -85,32 +85,32 @@ router.put("/:id", async (req: Request, res: Response) => {
 
 //Company
 router.get("/company", async (req, res) => {
-    companyModel.findAll((err: Error, orders: Order[]) => {
+    companyModel.findAll((err: Error, company: Company[]) => {
         if (err) {
             return res.status(500).json({ "errorMessage": err.message });
         }
 
-        res.status(200).json({ "data": orders });
+        res.status(200).json({ "data": company });
     });
 });
 
 router.post("/company", async (req: Request, res: Response) => {
     const newCompany: BasicCompany = req.body;
-    companyModel.create(newCompany, (err: Error, orderId: number) => {
+    companyModel.create(newCompany, (err: Error, companyId: number) => {
         if (err) {
             return res.status(500).json({ "message": err.message });
         }
-        res.status(200).json({ "orderId": orderId });
+        res.status(200).json({ "companyId": companyId });
     });
 });
 
 router.get("/company/:id", async (req: Request, res: Response) => {
     const companyId: number = Number(req.params.id);
-    companyModel.findOne(companyId, (err: Error, order: Order) => {
+    companyModel.findOne(companyId, (err: Error, company: Company) => {
         if (err) {
             return res.status(500).json({ "message": err.message });
         }
-        res.status(200).json({ "data": order });
+        res.status(200).json({ "data": company });
     })
 });
 
