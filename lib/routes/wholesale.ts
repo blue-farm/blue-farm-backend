@@ -43,6 +43,7 @@ const testItem =
 
 //Wholesale
 router.get("/", async (req, res) => {
+    console.log("/wholesale get")
     wholesaleModel.findAll((err: Error, wholesale: Wholesale[]) => {
         if (err) {
             return res.status(500).json({ "errorMessage": err.message });
@@ -54,6 +55,7 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req: Request, res: Response) => {
     const newWholesale: BasicWholesale = req.body;
+    console.log("/wholesale post")
     wholesaleModel.create(newWholesale.company_id, newWholesale, (err: Error, wholesale: number) => {
         if (err) {
             return res.status(500).json({ "message": err.message });
@@ -63,6 +65,7 @@ router.post("/", async (req: Request, res: Response) => {
 });
 
 router.get("/:id", async (req: Request, res: Response) => {
+    console.log("/wholesale get id")
     const companyId: number = Number(req.params.id);
     wholesaleModel.findOne(companyId, (err: Error, wholesale: Wholesale) => {
         if (err) {
@@ -73,6 +76,7 @@ router.get("/:id", async (req: Request, res: Response) => {
 });
 
 router.put("/:id", async (req: Request, res: Response) => {
+    console.log("/wholesale put")
     const wholesale: Wholesale = req.body;
     wholesaleModel.update(wholesale, (err: Error) => {
         if (err) {
@@ -85,6 +89,7 @@ router.put("/:id", async (req: Request, res: Response) => {
 
 //Company
 router.get("/company", async (req, res) => {
+    console.log("/company get")
     companyModel.findAll((err: Error, company: Company[]) => {
         if (err) {
             return res.status(500).json({ "errorMessage": err.message });
@@ -95,6 +100,7 @@ router.get("/company", async (req, res) => {
 });
 
 router.post("/company", async (req: Request, res: Response) => {
+    console.log("/company post")
     const newCompany: BasicCompany = req.body;
     companyModel.create(newCompany, (err: Error, companyId: number) => {
         if (err) {
@@ -105,6 +111,7 @@ router.post("/company", async (req: Request, res: Response) => {
 });
 
 router.get("/company/:id", async (req: Request, res: Response) => {
+    console.log("/company get id")
     const companyId: number = Number(req.params.id);
     companyModel.findOne(companyId, (err: Error, company: Company) => {
         if (err) {
@@ -115,6 +122,7 @@ router.get("/company/:id", async (req: Request, res: Response) => {
 });
 
 router.put("/company/:id", async (req: Request, res: Response) => {
+    console.log("/company put")
     const company: Company = req.body;
     companyModel.update(company, (err: Error) => {
         if (err) {

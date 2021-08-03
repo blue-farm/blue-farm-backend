@@ -27,6 +27,7 @@ export const findAll = (callback: Function) => {
         *,
       FROM wholesale
       `
+      console.log(countString)
 
     db.query(countString, findCompanyString, findAllString, (err: any, result: any) => {
         if (err) { callback(err) }
@@ -80,6 +81,7 @@ export const findAll = (callback: Function) => {
 
 export const create = (companyId: number, wholesale: BasicWholesale, callback: Function) => {
     const queryString = "INSERT INTO wholesale (company_id, date, amount, pricePerKg, isDelivered, isPaid, dueDate) VALUES (?, ?, ?, ?)"
+    console.log(queryString)
 
     db.query(
         queryString,
@@ -108,6 +110,7 @@ export const findOne = (wholesaleId: number, callback: Function) => {
         company_id,
       FROM wholesale
       WHERE id=?`
+      console.log(queryString)
 
     db.query(queryString, wholesaleId, (err: any, result: any) => {
         if (err) { callback(err) }
@@ -129,6 +132,7 @@ export const findOne = (wholesaleId: number, callback: Function) => {
 
 export const update = (wholesale: Wholesale, callback: Function) => {
     const queryString = `UPDATE wholesale SET date=?, amount=?, pricePerKg=?, isDelivered=?, isPaid=?, dueDate=?, company_id=? WHERE id=?`;
+    console.log(queryString)
 
     db.query(
         queryString,

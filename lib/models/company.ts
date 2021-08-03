@@ -9,6 +9,7 @@ export const findAll = (callback: Function) => {
       SELECT 
        *
       FROM company `
+      console.log(queryString)
 
     db.query(queryString, (err: any, result: any) => {
         if (err) { callback(err) }
@@ -32,6 +33,7 @@ export const findAll = (callback: Function) => {
 
 export const create = (company: BasicCompany, callback: Function) => {
     const queryString = "INSERT INTO company (name, phone, tell) VALUES (?, ?, ?, ?)"
+    console.log(queryString)
 
     db.query(
         queryString,
@@ -56,6 +58,7 @@ export const findOne = (companyId: number, callback: Function) => {
         tell
       FROM company
       WHERE id=?`
+      console.log(queryString)
 
     db.query(queryString, companyId, (err: any, result: any) => {
         if (err) { callback(err) }
@@ -73,6 +76,7 @@ export const findOne = (companyId: number, callback: Function) => {
 
 export const update = (company: Company, callback: Function) => {
     const queryString = `UPDATE company SET name=?, phone=?, tell=? WHERE id=?`;
+    console.log(queryString)
 
     db.query(
         queryString,
