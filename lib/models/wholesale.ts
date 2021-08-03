@@ -170,7 +170,7 @@ export const update = (wholesale: Wholesale, callback: Function) => {
 
     db.query(
         queryString,
-        [wholesale.company_id, wholesale.date, wholesale.amount, wholesale.pricePerKg, wholesale.isDelivered, wholesale.isPaid, wholesale.dueDate],
+        [wholesale.date, wholesale.amount, wholesale.pricePerKg, wholesale.isDelivered, wholesale.isPaid, wholesale.dueDate, wholesale.company_id, wholesale.id, ],
         (err: any, result: any) => {
             if (err) { callback(err) }
             callback(null);
