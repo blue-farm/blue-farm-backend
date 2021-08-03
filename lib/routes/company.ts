@@ -20,11 +20,11 @@ router.get("/", async (req, res) => {
     });
 });
 
-router.post("/", (req, res: Response) => {
+router.post("/", async(req: Request, res: Response) => {
     console.log("/company post")
     const newCompany: BasicCompany = req.body;
-    console.log(req.body)
-    console.log(newCompany)
+    // console.log(req.body)
+    // console.log(newCompany)
     if(!newCompany)
     return res.status(500).json({ "message": "empty" });
 
@@ -50,6 +50,7 @@ router.get("/:id", async (req: Request, res: Response) => {
 router.put("/:id", async (req: Request, res: Response) => {
     console.log("/company put")
     const company: Company = req.body;
+    console.log(company)
     companyModel.update(company, (err: Error) => {
         if (err) {
             return res.status(500).json({ "message": err.message });
