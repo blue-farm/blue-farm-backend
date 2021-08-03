@@ -4,56 +4,22 @@ import { Companies } from "../types/company";
 var db = require('../db');
 import { OkPacket, RowDataPacket } from "mysql2";
 
-
 export const findAll = (callback: Function) => {
-
-    const countString = `
-    SELECT 
-        sum(CASE When isDelivered=0 Then amount Else 0 End ) As notShippedAmount
-    FROM wholesale
-    `
-    const findCompanyString = `
-      SELECT 
-        w.company_id AS id,
-        c.name AS name,
-        sum(w.amount) As totalAmount,
-        sum(CASE When w.isDelivered=0 Then w.amount Else 0 End ) As notShippedAmount
-      FROM wholesale AS w
-      INNER JOIN company AS c ON c.id=w.company_id
-      `
 
     const findAllString = `
       SELECT 
         *,
       FROM wholesale
       `
-      console.log(countString)
+      console.log(findAllString)
 
-    db.query(countString, findCompanyString, findAllString, (err: any, result: any) => {
+    db.query(findAllString, (err: any, result: any) => {
         if (err) { callback(err) }
 
-        const row1 = <RowDataPacket[]>result[0];
-        const row2 = <RowDataPacket[]>result[1];
-        const row3 = <RowDataPacket[]>result[2];
-        let notShippedAmount: number = 0;
-        let companies: Companies[] = [];
-        // const wholesales: Wholesale[] = [];
+        const row1 = <RowDataPacket[]>result;
+        const wholesales: Wholesale[] = [];
 
         row1.forEach(row => {
-            notShippedAmount = row.notShippedAmount;
-        });
-        row2.forEach(row => {
-            const company: Companies = {
-                id: row.id,
-                name: row.name,
-                totalAmount: row.totalAmount,
-                notShippedAmount: row.notShippedAmount,
-                wholesales: []
-            }
-            companies.push(company);
-        });
-
-        row3.forEach(row => {
             const wholesale: Wholesale = {
                 id: row.id,
                 date: row.date,
@@ -66,17 +32,84 @@ export const findAll = (callback: Function) => {
                 name: row.name,//company_name
             }
 
-            let i = companies.findIndex(_ => _.id == row.company_id);
-            if (i >= 0)
-                companies[i].wholesales.push(wholesale);
+            wholesales.push(wholesale);
+
         });
-        let data = {
-            companies,
-            notShippedAmount
-        }
-        callback(null, data);
+        callback(null, wholesales);
     });
 }
+// export const findAll = (callback: Function) => {
+
+//     const countString = `
+//     SELECT 
+//         sum(CASE When isDelivered=0 Then amount Else 0 End ) As notShippedAmount
+//     FROM wholesale
+//     `
+//     const findCompanyString = `
+//       SELECT 
+//         w.company_id AS id,
+//         c.name AS name,
+//         sum(w.amount) As totalAmount,
+//         sum(CASE When w.isDelivered=0 Then w.amount Else 0 End ) As notShippedAmount
+//       FROM wholesale AS w
+//       INNER JOIN company AS c ON c.id=w.company_id
+//       `
+
+//     const findAllString = `
+//       SELECT 
+//         *,
+//       FROM wholesale
+//       `
+//       console.log(countString)
+
+//     db.query(countString, findCompanyString, findAllString, (err: any, result: any) => {
+//         if (err) { callback(err) }
+
+//         const row1 = <RowDataPacket[]>result[0];
+//         const row2 = <RowDataPacket[]>result[1];
+//         const row3 = <RowDataPacket[]>result[2];
+//         let notShippedAmount: number = 0;
+//         let companies: Companies[] = [];
+//         // const wholesales: Wholesale[] = [];
+
+//         row1.forEach(row => {
+//             notShippedAmount = row.notShippedAmount;
+//         });
+//         row2.forEach(row => {
+//             const company: Companies = {
+//                 id: row.id,
+//                 name: row.name,
+//                 totalAmount: row.totalAmount,
+//                 notShippedAmount: row.notShippedAmount,
+//                 wholesales: []
+//             }
+//             companies.push(company);
+//         });
+
+//         row3.forEach(row => {
+//             const wholesale: Wholesale = {
+//                 id: row.id,
+//                 date: row.date,
+//                 amount: row.amount,
+//                 pricePerKg: row.pricePerKg,
+//                 isDelivered: row.isDelivered,
+//                 isPaid: row.isPaid,
+//                 dueDate: row.dueDate,
+//                 company_id: row.company_id,
+//                 name: row.name,//company_name
+//             }
+
+//             let i = companies.findIndex(_ => _.id == row.company_id);
+//             if (i >= 0)
+//                 companies[i].wholesales.push(wholesale);
+//         });
+//         let data = {
+//             companies,
+//             notShippedAmount
+//         }
+//         callback(null, data);
+//     });
+// }
 
 
 export const create = (companyId: number, wholesale: BasicWholesale, callback: Function) => {
@@ -115,7 +148,7 @@ export const findOne = (wholesaleId: number, callback: Function) => {
     db.query(queryString, wholesaleId, (err: any, result: any) => {
         if (err) { callback(err) }
 
-        const row = (<RowDataPacket>result);
+        const row = (<RowDataPacket>result)[0];
         console.log(row);
         const wholesale: Wholesale = {
             id: row.id,
