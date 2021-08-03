@@ -18,6 +18,7 @@ export const findAll = (callback: Function) => {
 
         const row1 = <RowDataPacket[]>result;
         const wholesales: Wholesale[] = [];
+        console.log(row1)
 
         row1.forEach(row => {
             const wholesale: Wholesale = {
@@ -29,7 +30,6 @@ export const findAll = (callback: Function) => {
                 isPaid: row.isPaid,
                 dueDate: row.dueDate,
                 company_id: row.company_id,
-                name: row.name,//company_name
             }
 
             wholesales.push(wholesale);
