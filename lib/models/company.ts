@@ -14,123 +14,74 @@ export const findAll = (callback: Function) => {
         if (err) { callback(err) }
 
         const rows = <RowDataPacket[]>result;
-        const orders: Company[] = [];
+        const companys: BasicCompany[] = [];
 
         rows.forEach(row => {
-            const order: Company = {
+            const company: Company = {
                 id: row.id,
                 name: row.name,
                 phone: row.phone,
                 tell: row.tell,
             }
-            orders.push(order);
+            companys.push(company);
         });
-        callback(null, orders);
+        callback(null, companys);
     });
 }
 
 
-// export const create = (order: BasicOrder, callback: Function) => {
-//     const queryString = "INSERT INTO ProductOrder (product_id, customer_id, product_quantity) VALUES (?, ?, ?)"
+export const create = (company: BasicCompany, callback: Function) => {
+    const queryString = "INSERT INTO company (name, phone, tell) VALUES (?, ?, ?, ?)"
 
-//     db.query(
-//         queryString,
-//         [order.product.id, order.customer.id, order.productQuantity],
-//         (err: any, result: any) => {
-//             if (err) { callback(err) };
+    db.query(
+        queryString,
+        [company.name, company.phone, company.tell],
+        (err: any, result: any) => {
+            if (err) { callback(err) };
 
-//             const insertId = (<OkPacket>result).insertId;
-//             callback(null, insertId);
-//         }
-//     );
-// };
+            const insertId = (<OkPacket>result).insertId;
+            callback(null, insertId);
+        }
+    );
+};
 
-// export const findOne = (orderId: number, callback: Function) => {
 
-//     const queryString = `
-//       SELECT 
-//         o.*,
-//         p.*,
-//         c.name AS customer_name,
-//         c.email
-//       FROM ProductOrder AS o
-//       INNER JOIN Customer AS c ON c.id=o.customer_id
-//       INNER JOIN Product AS p ON p.id=o.product_id
-//       WHERE o.order_id=?`
+export const findOne = (companyId: number, callback: Function) => {
 
-//     db.query(queryString, orderId, (err: any, result: any) => {
-//         if (err) { callback(err) }
+    const queryString = `
+      SELECT 
+        id,
+        name,
+        phone,
+        tell
+      FROM company
+      WHERE id=?`
 
-//         const row = (<RowDataPacket>result)[0];
-//         const order: OrderWithDetails = {
-//             orderId: row.order_id,
-//             customer: {
-//                 id: row.cusomer_id,
-//                 name: row.customer_name,
-//                 email: row.email
-//             },
-//             product: {
-//                 id: row.product_id,
-//                 name: row.name,
-//                 description: row.description,
-//                 instockQuantity: row.instock_quantity,
-//                 price: row.price
-//             },
-//             productQuantity: row.product_quantity
-//         }
-//         callback(null, order);
-//     });
-// }
+    db.query(queryString, companyId, (err: any, result: any) => {
+        if (err) { callback(err) }
 
-// export const findAll = (callback: Function) => {
-//     const queryString = `
-//       SELECT 
-//         o.*, 
-//         p.*,
-//         c.name AS customer_name,
-//         c.email
-//       FROM ProductOrder AS o 
-//       INNER JOIN Customer AS c ON c.id=o.customer_id
-//       INNER JOIN Product AS p ON p.id=o.product_id`
+        const row = (<RowDataPacket>result)[0];
+        const order: Company = {
+            id: row.id,
+            name: row.name,
+            phone: row.phone,
+            tell: row.tell
+        }
+        callback(null, order);
+    });
+}
 
-//     db.query(queryString, (err: any, result: any) => {
-//         if (err) { callback(err) }
+export const update = (company: Company, callback: Function) => {
+    const queryString = `UPDATE company SET name=?, phone=?, tell=? WHERE id=?`;
 
-//         const rows = <RowDataPacket[]>result;
-//         const orders: Order[] = [];
+    db.query(
+        queryString,
+        [company.name, company.phone, company.tell, company.id],
+        (err: any, result: any) => {
+            if (err) { callback(err) }
+            callback(null);
+        }
+    );
+}
 
-//         rows.forEach(row => {
-//             const order: OrderWithDetails = {
-//                 orderId: row.order_id,
-//                 customer: {
-//                     id: row.customer_id,
-//                     name: row.customer_name,
-//                     email: row.email
-//                 },
-//                 product: {
-//                     id: row.product_id,
-//                     name: row.name,
-//                     description: row.description,
-//                     instockQuantity: row.instock_quantity,
-//                     price: row.price
-//                 },
-//                 productQuantity: row.product_quantity
-//             }
-//             orders.push(order);
-//         });
-//         callback(null, orders);
-//     });
-// }
 
-// export const update = (order: Order, callback: Function) => {
-//     const queryString = `UPDATE ProductOrder SET product_id=?, product_quantity=? WHERE order_id=?`;
-
-//     db.query(
-//         queryString,
-//         [order.product.id, order.productQuantity, order.orderId],
-//         (err: any, result: any) => {
-//             if (err) { callback(err) }
-//             callback(null);
-//         }
-//     );
-// }

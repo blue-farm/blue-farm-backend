@@ -1,7 +1,10 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import * as orderModel from "../models/order";
 import * as companyModel from "../models/company";
+import * as wholesaleModel from "../models/wholesale";
 import { Order, BasicOrder } from "../types/order";
+import { BasicCompany, Company } from 'types/company';
+import { BasicWholesale, Wholesale } from 'types/wholesale';
 
 var router = express.Router();
 
@@ -15,7 +18,7 @@ const testItem =
         name: 'Youjin',
         amount: 2,
         phone: '01012345678',
-        address: 'ì¶©ë‚¨ ì²œì•ˆ?‹œ',
+        address: 'ì¶©ë‚¨ ì²œì•ˆ?ï¿½ï¿½',
         payment: true,
         shipped: true,
         delivery: 'direct'
@@ -26,7 +29,7 @@ const testItem =
         name: 'Youjin2',
         amount: 3,
         phone: '01023456789',
-        address: 'ê²½ë¶ ?¬?•­?‹œ',
+        address: 'ê²½ë¶ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½',
         payment: false,
         shipped: false,
         delivery: 'express'
@@ -38,7 +41,50 @@ const testItem =
 }
 
 
+//Wholesale
 router.get("/", async (req, res) => {
+    wholesaleModel.findAll((err: Error, orders: Order[]) => {
+        if (err) {
+            return res.status(500).json({ "errorMessage": err.message });
+        }
+
+        res.status(200).json({ "data": orders });
+    });
+});
+
+router.post("/", async (req: Request, res: Response) => {
+    const newWholesale: BasicWholesale = req.body;
+    wholesaleModel.create(newWholesale.company_id, newWholesale, (err: Error, orderId: number) => {
+        if (err) {
+            return res.status(500).json({ "message": err.message });
+        }
+        res.status(200).json({ "orderId": orderId });
+    });
+});
+
+router.get("/:id", async (req: Request, res: Response) => {
+    const companyId: number = Number(req.params.id);
+    wholesaleModel.findOne(companyId, (err: Error, order: Order) => {
+        if (err) {
+            return res.status(500).json({ "message": err.message });
+        }
+        res.status(200).json({ "data": order });
+    })
+});
+
+router.put("/:id", async (req: Request, res: Response) => {
+    const wholesale: Wholesale = req.body;
+    wholesaleModel.update(wholesale, (err: Error) => {
+        if (err) {
+            return res.status(500).json({ "message": err.message });
+        }
+        res.status(200).send();
+    })
+});
+
+
+//Company
+router.get("/company", async (req, res) => {
     companyModel.findAll((err: Error, orders: Order[]) => {
         if (err) {
             return res.status(500).json({ "errorMessage": err.message });
@@ -47,6 +93,39 @@ router.get("/", async (req, res) => {
         res.status(200).json({ "data": orders });
     });
 });
+
+router.post("/company", async (req: Request, res: Response) => {
+    const newCompany: BasicCompany = req.body;
+    companyModel.create(newCompany, (err: Error, orderId: number) => {
+        if (err) {
+            return res.status(500).json({ "message": err.message });
+        }
+        res.status(200).json({ "orderId": orderId });
+    });
+});
+
+router.get("/company/:id", async (req: Request, res: Response) => {
+    const companyId: number = Number(req.params.id);
+    companyModel.findOne(companyId, (err: Error, order: Order) => {
+        if (err) {
+            return res.status(500).json({ "message": err.message });
+        }
+        res.status(200).json({ "data": order });
+    })
+});
+
+router.put("/company/:id", async (req: Request, res: Response) => {
+    const company: Company = req.body;
+    companyModel.update(company, (err: Error) => {
+        if (err) {
+            return res.status(500).json({ "message": err.message });
+        }
+        res.status(200).send();
+    })
+});
+
+
+
 // router.get('/', (req, res, next) => {
 //     var bPayment = req.query.bPayment;
 //     var bShipped = req.query.bShipped;
