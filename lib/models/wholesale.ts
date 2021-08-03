@@ -115,7 +115,8 @@ export const findOne = (wholesaleId: number, callback: Function) => {
     db.query(queryString, wholesaleId, (err: any, result: any) => {
         if (err) { callback(err) }
 
-        const row = (<RowDataPacket>result)[0];
+        const row = (<RowDataPacket>result);
+        console.log(row);
         const wholesale: Wholesale = {
             id: row.id,
             date: row.date,
