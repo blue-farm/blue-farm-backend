@@ -38,6 +38,40 @@ import { OkPacket, RowDataPacket } from "mysql2";
 //         callback(null, wholesales);
 //     });
 // }
+export const findAll1 = (callback: Function) => {
+
+    const findAllString = `
+      SELECT 
+        *
+      FROM wholesale
+      `
+      console.log(findAllString)
+
+    db.query(findAllString, (err: any, result: any) => {
+        if (err) { callback(err) }
+
+        const row1 = <RowDataPacket[]>result;
+        const wholesales: Wholesale[] = [];
+        console.log(row1)
+
+        row1.forEach(row => {
+            const wholesale: Wholesale = {
+                id: row.id,
+                date: row.date,
+                amount: row.amount,
+                pricePerKg: row.pricePerKg,
+                isDelivered: row.isDelivered,
+                isPaid: row.isPaid,
+                dueDate: row.dueDate,
+                company_id: row.company_id,
+            }
+
+            wholesales.push(wholesale);
+
+        });
+        callback(null, wholesales);
+    });
+}
 export const findAll = (callback: Function) => {
 
     const countString = `
@@ -61,6 +95,7 @@ export const findAll = (callback: Function) => {
       FROM wholesale
       `
       console.log(countString)
+      console.log(findCompanyString)
 
     db.query(countString, findCompanyString, findAllString, (err: any, result: any) => {
         if (err) { callback(err) }

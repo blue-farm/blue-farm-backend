@@ -42,6 +42,16 @@ const testItem =
 
 
 //Wholesale
+router.get("/1", async (req, res) => {
+    console.log("/wholesale get")
+    wholesaleModel.findAll1((err: Error, wholesale: Wholesale[]) => {
+        if (err) {
+            return res.status(500).json({ "errorMessage": err.message });
+        }
+
+        res.status(200).json({ "data": wholesale });
+    });
+});
 router.get("/", async (req, res) => {
     console.log("/wholesale get")
     wholesaleModel.findAll((err: Error, wholesale: Wholesale[]) => {
