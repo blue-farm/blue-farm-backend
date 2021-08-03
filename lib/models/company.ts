@@ -32,7 +32,7 @@ export const findAll = (callback: Function) => {
 
 
 export const create = (company: BasicCompany, callback: Function) => {
-    const queryString = "INSERT INTO company (name, phone, tell) VALUES (?, ?, ?, ?)"
+    const queryString = "INSERT INTO company (name, phone, tell) VALUES (?, ?, ?)"
     console.log(queryString)
 
     db.query(
