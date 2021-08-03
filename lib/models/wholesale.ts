@@ -8,7 +8,7 @@ export const findAll = (callback: Function) => {
 
     const findAllString = `
       SELECT 
-        *,
+        *
       FROM wholesale
       `
       console.log(findAllString)
@@ -57,7 +57,7 @@ export const findAll = (callback: Function) => {
 
 //     const findAllString = `
 //       SELECT 
-//         *,
+//         *
 //       FROM wholesale
 //       `
 //       console.log(countString)
