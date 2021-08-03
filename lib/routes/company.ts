@@ -20,13 +20,13 @@ router.get("/", async (req, res) => {
     });
 });
 
-router.post("/", async(req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
     console.log("/company post")
     const newCompany: BasicCompany = req.body;
     // console.log(req.body)
     // console.log(newCompany)
-    if(!newCompany)
-    return res.status(500).json({ "message": "empty" });
+    if (!newCompany)
+        return res.status(500).json({ "message": "empty" });
 
     companyModel.create(newCompany, (err: Error, companyId: number) => {
         if (err) {
@@ -55,7 +55,7 @@ router.put("/:id", async (req: Request, res: Response) => {
         if (err) {
             return res.status(500).json({ "message": err.message });
         }
-        res.status(200).send();
+        res.status(200).send({ "companyId": company.id });
     })
 });
 
