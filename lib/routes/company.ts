@@ -20,7 +20,7 @@ router.get("/", async (req, res) => {
     });
 });
 
-router.post("/", async (req: Request, res: Response) => {
+router.post("/", async (req, res: Response) => {
     console.log("/company post")
     const newCompany: BasicCompany = req.body;
     console.log(newCompany)
