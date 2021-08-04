@@ -159,7 +159,7 @@ export const findAll = (callback: Function) => {
     console.log(countString)
     console.log(findCompanyString)
 
-    db.query(countString + findCompanyString + findAllString, (err: any, result: any) => {
+    db.query(countString + findAllString, (err: any, result: any) => {
         if (err) { callback(err) }
         console.log(result)
         console.log(<RowDataPacket[]>result)
@@ -174,42 +174,42 @@ export const findAll = (callback: Function) => {
         let companies: Companies[] = [];
         // const wholesales: Wholesale[] = [];
 
-        row1.forEach(row => {
-            notShippedAmount = row.notShippedAmount;
-        });
-        row2.forEach(row => {
-            const company: Companies = {
-                id: row.id,
-                name: row.name,
-                totalAmount: row.totalAmount,
-                notShippedAmount: row.notShippedAmount,
-                wholesales: []
-            }
-            companies.push(company);
-        });
+        // row1.forEach(row => {
+        //     notShippedAmount = row.notShippedAmount;
+        // });
+        // row2.forEach(row => {
+        //     const company: Companies = {
+        //         id: row.id,
+        //         name: row.name,
+        //         totalAmount: row.totalAmount,
+        //         notShippedAmount: row.notShippedAmount,
+        //         wholesales: []
+        //     }
+        //     companies.push(company);
+        // });
 
-        row3.forEach(row => {
-            const wholesale: Wholesale = {
-                id: row.id,
-                date: row.date,
-                amount: row.amount,
-                pricePerKg: row.pricePerKg,
-                isDelivered: row.isDelivered,
-                isPaid: row.isPaid,
-                dueDate: row.dueDate,
-                company_id: row.company_id,
-                name: row.name,//company_name
-            }
+        // row3.forEach(row => {
+        //     const wholesale: Wholesale = {
+        //         id: row.id,
+        //         date: row.date,
+        //         amount: row.amount,
+        //         pricePerKg: row.pricePerKg,
+        //         isDelivered: row.isDelivered,
+        //         isPaid: row.isPaid,
+        //         dueDate: row.dueDate,
+        //         company_id: row.company_id,
+        //         name: row.name,//company_name
+        //     }
 
-            let i = companies.findIndex(_ => _.id == row.company_id);
-            if (i >= 0)
-                companies[i].wholesales.push(wholesale);
-        });
-        let data = {
-            companies,
-            notShippedAmount
-        }
-        callback(null, data);
+        //     let i = companies.findIndex(_ => _.id == row.company_id);
+        //     if (i >= 0)
+        //         companies[i].wholesales.push(wholesale);
+        // });
+        // let data = {
+        //     companies,
+        //     notShippedAmount
+        // }
+        callback(null, 'data');
     });
 }
 
