@@ -172,44 +172,44 @@ export const findAll = (callback: Function) => {
         console.log(row3)
         let notShippedAmount: number = 0;
         let companies: Companies[] = [];
-        // const wholesales: Wholesale[] = [];
+        const wholesales: Wholesale[] = [];
 
-        // row1.forEach(row => {
-        //     notShippedAmount = row.notShippedAmount;
-        // });
-        // row2.forEach(row => {
-        //     const company: Companies = {
-        //         id: row.id,
-        //         name: row.name,
-        //         totalAmount: row.totalAmount,
-        //         notShippedAmount: row.notShippedAmount,
-        //         wholesales: []
-        //     }
-        //     companies.push(company);
-        // });
+        row1.forEach(row => {
+            notShippedAmount = row.notShippedAmount;
+        });
+        row2.forEach(row => {
+            const company: Companies = {
+                id: row.id,
+                name: row.name,
+                totalAmount: row.totalAmount,
+                notShippedAmount: row.notShippedAmount,
+                wholesales: []
+            }
+            companies.push(company);
+        });
 
-        // row3.forEach(row => {
-        //     const wholesale: Wholesale = {
-        //         id: row.id,
-        //         date: row.date,
-        //         amount: row.amount,
-        //         pricePerKg: row.pricePerKg,
-        //         isDelivered: row.isDelivered,
-        //         isPaid: row.isPaid,
-        //         dueDate: row.dueDate,
-        //         company_id: row.company_id,
-        //         name: row.name,//company_name
-        //     }
+        row3.forEach(row => {
+            const wholesale: Wholesale = {
+                id: row.id,
+                date: row.date,
+                amount: row.amount,
+                pricePerKg: row.pricePerKg,
+                isDelivered: row.isDelivered,
+                isPaid: row.isPaid,
+                dueDate: row.dueDate,
+                company_id: row.company_id,
+                name: row.name,//company_name
+            }
 
-        //     let i = companies.findIndex(_ => _.id == row.company_id);
-        //     if (i >= 0)
-        //         companies[i].wholesales.push(wholesale);
-        // });
-        // let data = {
-        //     companies,
-        //     notShippedAmount
-        // }
-        callback(null, 'data');
+            let i = companies.findIndex(_ => _.id == row.company_id);
+            if (i >= 0)
+                companies[i].wholesales.push(wholesale);
+        });
+        let data = {
+            companies,
+            notShippedAmount
+        }
+        callback(null, data);
     });
 }
 
