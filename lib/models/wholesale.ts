@@ -159,7 +159,7 @@ export const findAll = (callback: Function) => {
     console.log(countString)
     console.log(findCompanyString)
 
-    db.query(countString + findAllString, (err: any, result: any) => {
+    db.query(countString + findCompanyString + findAllString, (err: any, result: any) => {
         if (err) { callback(err) }
         console.log(result)
         console.log(<RowDataPacket[]>result)
