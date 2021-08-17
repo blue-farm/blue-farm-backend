@@ -1,5 +1,5 @@
 // var  mysql = require('mysql');
-// var os = require('os');  //?˜¸?Š¤?Š¸ ?´ë¦„ì„ ê°?? ¸?˜¤ê¸? ?œ„?•œ ëª¨ë“ˆ
+// var os = require('os');  //?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ë¦„ì„ ï¿½??ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½ ëª¨ë“ˆ
 import mysql from "mysql2";
 import * as dotenv from "dotenv";
 
@@ -29,12 +29,12 @@ dotenv.config();
 
 // var dbconnection = {
 //     init: function () {
-//         return mysql.createConnection(dbconnInfo.dev);	//ë¡œì»¬ê°œë°œ?™˜ê²?
+//         return mysql.createConnection(dbconnInfo.dev);	//ë¡œì»¬ê°œë°œ?ï¿½ï¿½ï¿½?
 //         // var hostname = os.hostname();
 //         // if(hostname === 'S1621N14'){
-//         // 	return mysql.createConnection(dbconnInfo.dev);	//ë¡œì»¬ê°œë°œ?™˜ê²?
+//         // 	return mysql.createConnection(dbconnInfo.dev);	//ë¡œì»¬ê°œë°œ?ï¿½ï¿½ï¿½?
 //         // }else{
-//         // 	return mysql.createConnection(dbconnInfo.real);	//cafe24 ?„œë²„í™˜ê²?
+//         // 	return mysql.createConnection(dbconnInfo.real);	//cafe24 ?ï¿½ï¿½ë²„í™˜ï¿½?
 //         // }
 //     },
 
@@ -53,7 +53,8 @@ const db = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "admin",
-    database: "blueberry"
+    database: "blueberry",
+    multipleStatements: true
 });
 
 db.connect();

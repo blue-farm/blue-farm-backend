@@ -138,7 +138,7 @@ export const findAll = (callback: Function) => {
     const countString = `
     SELECT 
         sum(CASE When isDelivered=0 Then amount Else 0 End ) As notShippedAmount
-    FROM wholesale
+    FROM wholesale;
     `
     const findCompanyString = `
       SELECT 
@@ -148,19 +148,21 @@ export const findAll = (callback: Function) => {
         sum(CASE When w.isDelivered=0 Then w.amount Else 0 End ) As notShippedAmount
       FROM wholesale AS w
       INNER JOIN company AS c ON c.id=w.company_id
-      GROUP BY w.company_id
+      GROUP BY w.company_id;
       `
 
     const findAllString = `
       SELECT 
         *
-      FROM wholesale
+      FROM wholesale;
       `
     console.log(countString)
     console.log(findCompanyString)
 
-    db.query(countString, findCompanyString, findAllString, (err: any, result: any) => {
+    db.query(countString + findCompanyString + findAllString, (err: any, result: any) => {
         if (err) { callback(err) }
+        console.log(result)
+        console.log(<RowDataPacket[]>result)
 
         const row1 = <RowDataPacket[]>result[0];
         console.log(row1)
@@ -170,7 +172,7 @@ export const findAll = (callback: Function) => {
         console.log(row3)
         let notShippedAmount: number = 0;
         let companies: Companies[] = [];
-        // const wholesales: Wholesale[] = [];
+        const wholesales: Wholesale[] = [];
 
         row1.forEach(row => {
             notShippedAmount = row.notShippedAmount;
