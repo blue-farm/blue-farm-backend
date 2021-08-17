@@ -59,5 +59,16 @@ router.put("/:id", async (req: Request, res: Response) => {
     })
 });
 
+router.delete("/:id", async (req: Request, res: Response) => {
+    console.log("/company put")
+    const companyId: number = Number(req.params.id);
+    companyModel.deleteOne(companyId, (err: Error) => {
+        if (err) {
+            return res.status(500).json({ "message": err.message });
+        }
+        res.status(200).send({ "companyId":companyId });
+    })
+});
+
 
 module.exports = router;

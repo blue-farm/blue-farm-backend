@@ -278,4 +278,14 @@ export const update = (wholesale: Wholesale, callback: Function) => {
     );
 }
 
-
+export const deleteOne = (wholesaleID:any, callback: Function) => {
+    const queryString = `DELETE FROEM wholesale WHERE id=?`;
+    db.query(
+        queryString,
+        [wholesaleID],
+        (err: any, result: any) => {
+            if (err) { callback(err) }
+            callback(null);
+        }
+    );
+}

@@ -9,69 +9,7 @@ import { BasicWholesale, Wholesale } from 'types/wholesale';
 var router = express.Router();
 
 
-/* GET users listing. */
-const testItem =
-{
-    list: [{
-        id: 'testID_1',
-        date: '20210715',
-        name: 'Youjin',
-        amount: 2,
-        phone: '01012345678',
-        address: '충남 천안?��',
-        payment: true,
-        shipped: true,
-        delivery: 'direct'
-    },
-    {
-        id: 'testID_2',
-        date: '20210716',
-        name: 'Youjin2',
-        amount: 3,
-        phone: '01023456789',
-        address: '경북 ?��?��?��',
-        payment: false,
-        shipped: false,
-        delivery: 'express'
-    }
-    ],
-
-    notShippedAmount: 5,
-    totalCount: 100,
-}
-
-
 //Wholesale
-router.get("/test1", async (req, res) => {
-    console.log("/wholesale get")
-    wholesaleModel.findAll1((err: Error, wholesale: Wholesale[]) => {
-        if (err) {
-            return res.status(500).json({ "errorMessage": err.message });
-        }
-
-        res.status(200).json({ "data": wholesale });
-    });
-});
-router.get("/test2", async (req, res) => {
-    console.log("/wholesale get")
-    wholesaleModel.findAll2((err: Error, wholesale: Wholesale[]) => {
-        if (err) {
-            return res.status(500).json({ "errorMessage": err.message });
-        }
-
-        res.status(200).json({ "data": wholesale });
-    });
-});
-router.get("/test3", async (req, res) => {
-    console.log("/wholesale get")
-    wholesaleModel.findAll3((err: Error, wholesale: Wholesale[]) => {
-        if (err) {
-            return res.status(500).json({ "errorMessage": err.message });
-        }
-
-        res.status(200).json({ "data": wholesale });
-    });
-});
 router.get("/", async (req, res) => {
     console.log("/wholesale get")
     wholesaleModel.findAll((err: Error, wholesale: Wholesale[]) => {
@@ -116,58 +54,15 @@ router.put("/:id", async (req: Request, res: Response) => {
     })
 });
 
-
-
-// router.get('/', (req, res, next) => {
-//     var bPayment = req.query.bPayment;
-//     var bShipped = req.query.bShipped;
-//     var pageNum = req.query.pageNum;
-//     var itemCount = req.query.itemCount;
-//     var sort = req.query.sort;
-//     console.log('bPayment: ' + bPayment + ', pageNum: ' + pageNum);
-//     // res.send('GET request to the wholesale');
-//     res.json(testItem);
-// });
-
-router.get('/test', (req, res, next) => {
-    res.json(testItem);
-})
-
-router.get('/:id', (req, res, next) => {
-    // console.log(req);
-    var id = req.params.id;
-    if (id == '1')
-        res.json(testItem.list[0]);
-    else if (id == '2')
-        res.json(testItem.list[1]);
-    else
-        res.send(id + ' data is empty!');
-    // res.status(200).send({
-    //     total:total[0].total,cç
-    //     list:info,
-    //     saving:publish,
-    //     use:use
-    // });
-});
-
-router.post('/', function (req, res) {
-    var id = req.body.id;
-    console.log(req.body);
-    if (id)
-        res.send('data is updated!');
-    else
-        res.send('data is created!');
-
-});
-
-router.delete('/', (req, res, next) => {
-    var id = req.body.id;
-
-    if (id)
-        res.send('data is delete!');
-    else
-        res.send('data is empty!');
-    // res.send('respond with a resource');
+router.delete("/:id", async (req: Request, res: Response) => {
+    console.log("/wholesale delete")
+    const wholesaleId: number = Number(req.params.id);
+    wholesaleModel.deleteOne(wholesaleId, (err: Error) => {
+        if (err) {
+            return res.status(500).json({ "message": err.message });
+        }
+        res.status(200).send({"wholesaleId":wholesaleId});
+    })
 });
 
 module.exports = router;

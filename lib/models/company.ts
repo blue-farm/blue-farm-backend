@@ -88,4 +88,15 @@ export const update = (company: Company, callback: Function) => {
     );
 }
 
+export const deleteOne = (companyId:any, callback: Function) => {
+    const queryString = `DELETE FROEM company WHERE id=?`;
+    db.query(
+        queryString,
+        [ companyId],
+        (err: any, result: any) => {
+            if (err) { callback(err) }
+            callback(null);
+        }
+    );
+}
 
