@@ -89,7 +89,7 @@ export const update = (company: Company, callback: Function) => {
 }
 
 export const deleteOne = (companyId:any, callback: Function) => {
-    const queryString = `DELETE FROEM company WHERE id=?`;
+    const queryString = `DELETE FROM company WHERE id=?`;
     db.query(
         queryString,
         [ companyId],

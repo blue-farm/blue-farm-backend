@@ -281,7 +281,7 @@ export const update = (wholesale: Wholesale, callback: Function) => {
 }
 
 export const deleteOne = (wholesaleID:any, callback: Function) => {
-    const queryString = `DELETE FROEM wholesale WHERE id=?`;
+    const queryString = `DELETE FROM wholesale WHERE id=?`;
     db.query(
         queryString,
         [wholesaleID],
