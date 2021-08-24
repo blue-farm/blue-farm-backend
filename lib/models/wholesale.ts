@@ -261,6 +261,7 @@ export const findAld = (page: number, callback: Function) => {
         let findCompanyString = ``;
         for (let index = 0; index < wholesales_ids.length; index++) {
             const element = wholesales_ids[index];
+            console.log(element)
             findCompanyString += `
             SELECT 
             w.company_id AS id,
@@ -275,6 +276,7 @@ export const findAld = (page: number, callback: Function) => {
         }
         db.query(findCompanyString, (err: any, result: any) => {
             if (err) { callback(err) }
+            console.log(result)
             let companies: Companies[] = [];
             for (let index = 0; index < result.length; index++) {
                 const rows = <RowDataPacket[]>result[index];
