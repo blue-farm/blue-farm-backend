@@ -224,7 +224,7 @@ export const findAld = (page: number, callback: Function) => {
       SELECT 
         *
       FROM wholesale
-      ORDER BY time DESC LIMIT 20 OFFSET ${page * 20};
+      ORDER BY date DESC LIMIT 20 OFFSET ${page * 20};
       `
     db.query(countString + findAllString, (err: any, result: any) => {
         if (err) { callback(err) }
