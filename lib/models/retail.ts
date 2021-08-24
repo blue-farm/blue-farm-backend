@@ -50,7 +50,6 @@ export const create = (order: Retail, callback: Function) => {
 };
 
 export const findOne = (orderId: number, callback: Function) => {
-
     const queryString = `
       SELECT *
       FROM retail
@@ -91,4 +90,16 @@ export const update = (order: Retail, callback: Function) => {
             callback(null);
         }
     );
+}
+
+export const deleteOne = (orderId: number, callback: Function) => {
+    const queryString = `
+      DELETE
+      FROM retail
+      WHERE id=?`
+
+    db.query(queryString, orderId, (err: any, result: any) => {
+        if (err) { callback(err) }
+        callback(null);
+    });
 }

@@ -7,7 +7,7 @@ var router = express.Router();
 module.exports = router;
 
 // Get All Items
-router.get("/", async (req, res) => {
+router.get("/getAll", async (req, res) => {
     retailModel.findAll((err: Error, orders: Retail[]) => {
         if (err) {
             return res.status(500).json({ "errorMessage": err.message });
@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 });
 
 // Insert New Item
-router.post("/", async(req, res) => {
+router.post("/insert", async(req, res) => {
     const newOrder: Retail = req.body;
 
     retailModel.create(newOrder, (err: Error, orderID: number) => {
@@ -31,7 +31,7 @@ router.post("/", async(req, res) => {
 });
 
 // Get One Item
-router.get("/:id", async(req, res) => {
+router.get("/get/:id", async(req, res) => {
     const orderID: number = Number(req.params.id);
 
     retailModel.findOne(orderID, (err:Error, order:Retail) =>{
@@ -44,7 +44,7 @@ router.get("/:id", async(req, res) => {
 });
 
 // Edit One Item
-router.put("/:id", async(req, res) => {
+router.put("/edit/:id", async(req, res) => {
     const order: Retail = req.body;
 
     retailModel.update(order, (err: Error) => {
@@ -54,4 +54,17 @@ router.put("/:id", async(req, res) => {
   
         res.status(200).send();
     })
+});
+
+// Delete One Item
+router.get("/delete/:id", async(req, res) => {
+    const orderID: number = Number(req.params.id);
+
+    retailModel.deleteOne(orderID, (err:Error) =>{
+        if(err){
+            return res.status(500).json({ "errorMessage": err.message });
+        }
+
+        res.status(200).send();
+    });
 });
