@@ -10,6 +10,19 @@ var router = express.Router();
 
 
 //Wholesale
+
+router.get("/testtt", async (req: Request, res: Response) => {
+    console.log("/wholesale get id")
+    const page: number = Number(req.params.page);
+    wholesaleModel.findAld(page, (err: Error, wholesale: Wholesale) => {
+        if (err) {
+            return res.status(500).json({ "message": err.message });
+        }
+        res.status(200).json({ "data": wholesale });
+    })
+});
+
+
 router.get("/", async (req, res) => {
     console.log("/wholesale get")
     wholesaleModel.findAll((err: Error, wholesale: Wholesale[]) => {
@@ -43,16 +56,7 @@ router.get("/:id", async (req: Request, res: Response) => {
     })
 });
 
-router.get("/testtt", async (req: Request, res: Response) => {
-    console.log("/wholesale get id")
-    const page: number = Number(req.params.page);
-    wholesaleModel.findAld(page, (err: Error, wholesale: Wholesale) => {
-        if (err) {
-            return res.status(500).json({ "message": err.message });
-        }
-        res.status(200).json({ "data": wholesale });
-    })
-});
+
 
 router.put("/:id", async (req: Request, res: Response) => {
     console.log("/wholesale put")
