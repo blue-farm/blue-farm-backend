@@ -12,8 +12,10 @@ var router = express.Router();
 //Wholesale
 
 router.get("/testtt", async (req: Request, res: Response) => {
-    console.log("/wholesale get id")
+    console.log("/wholesale testtt id")
     const page: number = Number(req.params.page);
+    console.log(page)
+
     wholesaleModel.findAld(page, (err: Error, wholesale: Wholesale) => {
         if (err) {
             return res.status(500).json({ "message": err.message });
@@ -65,7 +67,7 @@ router.put("/:id", async (req: Request, res: Response) => {
         if (err) {
             return res.status(500).json({ "message": err.message });
         }
-        res.status(200).send({"wholesaleId":wholesale.id});
+        res.status(200).send({ "wholesaleId": wholesale.id });
     })
 });
 
@@ -76,7 +78,7 @@ router.delete("/:id", async (req: Request, res: Response) => {
         if (err) {
             return res.status(500).json({ "message": err.message });
         }
-        res.status(200).send({"wholesaleId":wholesaleId});
+        res.status(200).send({ "wholesaleId": wholesaleId });
     })
 });
 
