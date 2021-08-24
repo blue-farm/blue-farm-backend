@@ -258,6 +258,8 @@ export const findAld = (page: number, callback: Function) => {
             wholesales_ids.push(wholesale.company_id);
         });
         Array.from(new Set(wholesales_ids));
+        console.log('wholesales_ids')
+        console.log(wholesales_ids)
         let findCompanyString = ``;
         for (let index = 0; index < wholesales_ids.length; index++) {
             const element = wholesales_ids[index];
@@ -289,9 +291,11 @@ export const findAld = (page: number, callback: Function) => {
                         notShippedAmount: row.notShippedAmount,
                         wholesales: []
                     }
-                    company.wholesales = wholesales.filter(element => element.id == company.id);
+                    company.wholesales = wholesales.filter(element => element.company_id == company.id);
                     companies.push(company);
+
                 });
+                
             }
             let data = {
                 companies,
