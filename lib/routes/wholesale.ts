@@ -13,7 +13,7 @@ var router = express.Router();
 
 router.get("/testtt", async (req: Request, res: Response) => {
     console.log("/wholesale testtt id")
-    const page: number = Number(req.params.page);
+    const page: number = Number(req.query.page);
     console.log(page)
 
     wholesaleModel.findAld(page, (err: Error, wholesale: Wholesale) => {
