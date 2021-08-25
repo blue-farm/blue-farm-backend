@@ -228,16 +228,16 @@ export const findAld = (page: number, callback: Function) => {
       `
     db.query(countString + findAllString, (err: any, result: any) => {
         if (err) { callback(err) }
-        console.log(result)
+        // console.log(result)
         console.log(<RowDataPacket[]>result)
 
         const row1 = <RowDataPacket[]>result[0];
-        console.log(row1)
+        // console.log(row1)
         const row2 = <RowDataPacket[]>result[1];
-        console.log(row2)
+        // console.log(row2)
         let notShippedAmount: number = 0;
         const wholesales: Wholesale[] = [];
-        const wholesales_ids: number[] = [];
+        let wholesales_ids: number[] = [];
 
         row1.forEach(row => {
             notShippedAmount = row.notShippedAmount;
@@ -257,13 +257,13 @@ export const findAld = (page: number, callback: Function) => {
             wholesales.push(wholesale);
             wholesales_ids.push(wholesale.company_id);
         });
-        Array.from(new Set(wholesales_ids));
-        console.log('wholesales_ids')
-        console.log(wholesales_ids)
+        wholesales_ids = Array.from(new Set(wholesales_ids));
+        // console.log('wholesales_ids')
+        // console.log(wholesales_ids)
         let findCompanyString = ``;
         for (let index = 0; index < wholesales_ids.length; index++) {
             const element = wholesales_ids[index];
-            console.log(element)
+            // console.log(element)
             findCompanyString += `
             SELECT 
             w.company_id AS id,
@@ -278,7 +278,7 @@ export const findAld = (page: number, callback: Function) => {
         }
         db.query(findCompanyString, (err: any, result: any) => {
             if (err) { callback(err) }
-            console.log(result)
+            // console.log(result)
             let companies: Companies[] = [];
             for (let index = 0; index < result.length; index++) {
                 const rows = <RowDataPacket[]>result[index];
@@ -292,8 +292,8 @@ export const findAld = (page: number, callback: Function) => {
                         wholesales: []
                     }
                     company.wholesales = wholesales.filter(element => element.company_id == company.id);
-                    console.log('wholesales')
-                    console.log(wholesales.filter(element => element.company_id == company.id))
+                    // console.log('wholesales')
+                    // console.log(wholesales.filter(element => element.company_id == company.id))
                     companies.push(company);
 
                 });
