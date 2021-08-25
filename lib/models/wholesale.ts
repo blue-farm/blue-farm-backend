@@ -292,10 +292,12 @@ export const findAld = (page: number, callback: Function) => {
                         wholesales: []
                     }
                     company.wholesales = wholesales.filter(element => element.company_id == company.id);
+                    console.log('wholesales')
+                    console.log(wholesales.filter(element => element.company_id == company.id))
                     companies.push(company);
 
                 });
-                
+
             }
             let data = {
                 companies,
