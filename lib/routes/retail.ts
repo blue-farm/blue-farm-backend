@@ -68,3 +68,16 @@ router.get("/delete/:id", async(req, res) => {
         res.status(200).send();
     });
 });
+
+// Get Items within the range
+router.get("/list/:page", async(req, res) => {
+    const pageIdx: number = Number(req.params.page);
+
+    retailModel.getPage(pageIdx, (err:Error, orders: Retail[]) =>{
+        if(err){
+            return res.status(500).json({ "errorMessage": err.message });
+        }
+
+        res.status(200).json({ "data": orders });
+    });
+});

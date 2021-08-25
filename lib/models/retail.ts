@@ -103,3 +103,39 @@ export const deleteOne = (orderId: number, callback: Function) => {
         callback(null);
     });
 }
+
+export const getPage = (pageIdx:number, callback: Function) => {
+    const queryString = `
+      SELECT 
+       *
+      FROM retail
+      LIMIT ?, ? `
+
+    const pageSize = 2;
+    const firstItem = (pageIdx - 1) * pageSize; 
+
+    db.query(queryString, [firstItem, pageSize], (err: any, result: any) => {
+        if (err) { callback(err) }
+
+        const rows = <RowDataPacket[]>result;
+        const orders: Retail[] = [];
+
+        rows.forEach(row => {
+            const order: Retail = {
+                id:         row.id,
+                date:       row.date,
+                name:       row.name,
+                amount:     row.amount,
+                phone:      row.phone,
+                addr1:      row.addr1,
+                addr2:      row.addr2,
+                zip:        row.zip,
+                isPaid:     row.isPaid,
+                isShipped:  row.isShipped,
+                delivery:   row.delivery,
+            }
+            orders.push(order);
+        });
+        callback(null, orders);
+    });
+}
