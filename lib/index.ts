@@ -2,7 +2,7 @@ import express = require('express');
 import dotenv = require('dotenv');
 import mysql = require('mysql2');
 // import * as dotenv from "dotenv";
-
+var cors = require('cors')();
 const app = express();
 
 dotenv.config();
@@ -21,6 +21,12 @@ const companyRouter = require('./routes/company');
 const port = 80;
 
 app.use(express.json())
+app.use(cors);
+// app.all('/*', (req, res, next) => {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "X-Requested-With");
+//     next();
+// });
 
 app.get('/', (req, res) => {
     res.send('Welcome Blueberry!');
