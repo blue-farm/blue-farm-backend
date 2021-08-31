@@ -213,7 +213,11 @@ export const findAll = (callback: Function) => {
     });
 }
 
-export const findAld = (page: number, callback: Function) => {
+export const findAld = (page: number, sort: any, callback: Function) => {
+    let sortItem = `date DESC`;
+
+    if (sort && (sort == `name` || sort == `amount` || sort == `pricePerKg` || sort == `dueDate`))
+        sortItem = sort + `ASC`;
 
     const countString = `
     SELECT 
@@ -224,7 +228,7 @@ export const findAld = (page: number, callback: Function) => {
       SELECT 
         *
       FROM wholesale
-      ORDER BY date DESC LIMIT 20 OFFSET ${page * 20};
+      ORDER BY ${sortItem} LIMIT 20 OFFSET ${page * 20};
       `
     db.query(countString + findAllString, (err: any, result: any) => {
         if (err) { callback(err) }
