@@ -147,7 +147,7 @@ export const findAll = (callback: Function) => {
         sum(w.amount) As totalAmount,
         sum(CASE When w.isDelivered=0 Then w.amount Else 0 End ) As notShippedAmount
       FROM wholesale AS w
-      INNER JOIN company AS c ON c.id=w.company_id AND w.isDelete=false
+      INNER JOIN company AS c ON c.id=w.company_id AND c.isDelete=false
       GROUP BY w.company_id;
       `
 
@@ -227,7 +227,7 @@ export const findAld = (page: number, sort: any, callback: Function) => {
     const findAllString = `
       SELECT 
         *
-      FROM wholesale WHERE isDelete=false
+      FROM wholesale 
       ORDER BY ${sortItem} LIMIT 20 OFFSET ${page * 20};
       `
     db.query(countString + findAllString, (err: any, result: any) => {
@@ -275,7 +275,7 @@ export const findAld = (page: number, sort: any, callback: Function) => {
             sum(w.amount) As totalAmount,
             sum(CASE When w.isDelivered=0 Then w.amount Else 0 End ) As notShippedAmount
           FROM wholesale AS w
-          INNER JOIN company AS c ON c.id=w.company_id
+          INNER JOIN company AS c ON c.id=w.company_id AND  c.isDelete=false
           WHERE w.company_id = '${element}' 
           GROUP BY w.company_id;
           `
