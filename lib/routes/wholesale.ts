@@ -13,11 +13,11 @@ var router = express.Router();
 
 router.get("/testtt", async (req: Request, res: Response) => {
     console.log("/wholesale testtt id")
-    const page: number = Number(req.query.page);
-    const sort: any = req.query.sort;
-    console.log(page)
+    // const page: number = Number(req.query.page);
+    // const sort: any = req.query.sort;
+    // console.log(page)
 
-    wholesaleModel.findAld(page, sort, (err: Error, wholesale: Wholesale) => {
+    wholesaleModel.findAll((err: Error, wholesale: Wholesale) => {
         if (err) {
             return res.status(500).json({ "message": err.message });
         }
@@ -28,7 +28,10 @@ router.get("/testtt", async (req: Request, res: Response) => {
 
 router.get("/", async (req, res) => {
     console.log("/wholesale get")
-    wholesaleModel.findAll((err: Error, wholesale: Wholesale[]) => {
+    const page: number = Number(req.query.page);
+    const sort: any = req.query.sort;
+    console.log(page)
+    wholesaleModel.findAld(page, sort,(err: Error, wholesale: Wholesale[]) => {
         if (err) {
             return res.status(500).json({ "errorMessage": err.message });
         }
