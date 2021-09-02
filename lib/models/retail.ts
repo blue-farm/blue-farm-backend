@@ -35,7 +35,7 @@ export const findAll = (callback: Function) => {
 }
 
 export const create = (order: Retail, callback: Function) => {
-    const queryString = "INSERT INTO retail (id, date, name, amount, phone, addr1, addr2, zip, isPaid, isShipped, delivery) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+    const queryString = "INSERT INTO retail (id, DATE_FORMAT(date, '%Y-%m-%d'), name, amount, phone, addr1, addr2, zip, isPaid, isShipped, delivery) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
     db.query(
         queryString,
@@ -53,9 +53,9 @@ export const findOne = (orderId: number, callback: Function) => {
     const queryString = `
       SELECT *
       FROM retail
-      WHERE id=?`
+      WHERE id = ${orderId}`
 
-    db.query(queryString, orderId, (err: any, result: any) => {
+    db.query(queryString, (err: any, result: any) => {
         if (err) { callback(err) }
 
         const row = (<RowDataPacket>result)[0];
@@ -96,9 +96,9 @@ export const deleteOne = (orderId: number, callback: Function) => {
     const queryString = `
       DELETE
       FROM retail
-      WHERE id=?`
+      WHERE id = ${orderId}`
 
-    db.query(queryString, orderId, (err: any, result: any) => {
+    db.query(queryString, (err: any, result: any) => {
         if (err) { callback(err) }
         callback(null);
     });
@@ -109,13 +109,13 @@ export const getPage = (sort:string, pageIdx:number, callback: Function) => {
       SELECT 
        *
       FROM retail
-      ORDER BY ?
+      ORDER BY ${sort}
       LIMIT ?, ? `
 
     const pageSize = 2;
     const firstItem = (pageIdx - 1) * pageSize; 
     
-    db.query(queryString, [sort, firstItem, pageSize], (err: any, result: any) => {
+    db.query(queryString, [firstItem, pageSize], (err: any, result: any) => {
         if (err) { callback(err) }
 
         const rows = <RowDataPacket[]>result;
@@ -139,4 +139,19 @@ export const getPage = (sort:string, pageIdx:number, callback: Function) => {
         });
         callback(null, orders);
     });    
+}
+
+// Get total amount based on isShipped column
+export const getTotalAmount = (bShipped: boolean, callback: Function) => {
+    const queryString = `
+      SELECT SUM(CASE WHEN isShipped = ${bShipped} THEN amount ELSE 0 END) AS total_amount
+      FROM retail`
+
+    db.query(queryString, (err: any, result: any) => {
+        if (err) { callback(err) }
+
+        const row = <RowDataPacket[]>result[0];
+
+        callback(null, row);
+    });
 }

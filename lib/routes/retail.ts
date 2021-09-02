@@ -82,3 +82,29 @@ router.get("/page/:sort/:page", async(req, res) => {
         res.status(200).json({ "data": orders });
     });
 });
+
+// Get total amount shipped
+router.get("/total-shipped", async(req, res) => {
+
+    retailModel.getTotalAmount(true, (err:Error, amount: number) =>{
+        if(err){
+            return res.status(500).json({ "errorMessage": err.message });
+        }
+
+        res.status(200).json({ "total-amount-shipped": amount });
+    });
+});
+
+// Get total amount unshipped
+router.get("/total-unshipped", async(req, res) => {
+
+    retailModel.getTotalAmount(false, (err:Error, amount: number) =>{
+        if(err){
+            return res.status(500).json({ "errorMessage": err.message });
+        }
+
+        res.status(200).json({ "total-amount-unshipped": amount });
+    });
+});
+
+
