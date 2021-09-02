@@ -150,8 +150,9 @@ export const getTotalAmount = (bShipped: boolean, callback: Function) => {
     db.query(queryString, (err: any, result: any) => {
         if (err) { callback(err) }
 
-        const row = <RowDataPacket[]>result[0];
+        const row = (<RowDataPacket[]>result)[0];
+        const amount: number = row.total_amount;
 
-        callback(null, row);
+        callback(null, amount);
     });
 }

@@ -84,27 +84,14 @@ router.get("/page/:sort/:page", async(req, res) => {
 });
 
 // Get total amount shipped
-router.get("/total-shipped", async(req, res) => {
+router.get("/shipped/:bShipped", async(req, res) => {
+    const bShipped: boolean = (req.params.bShipped == "true") ? true : false;
 
-    retailModel.getTotalAmount(true, (err:Error, amount: number) =>{
+    retailModel.getTotalAmount(bShipped, (err:Error, amount: number) =>{
         if(err){
             return res.status(500).json({ "errorMessage": err.message });
         }
 
-        res.status(200).json({ "total-amount-shipped": amount });
+        res.status(200).json({ "total-amount": amount });
     });
 });
-
-// Get total amount unshipped
-router.get("/total-unshipped", async(req, res) => {
-
-    retailModel.getTotalAmount(false, (err:Error, amount: number) =>{
-        if(err){
-            return res.status(500).json({ "errorMessage": err.message });
-        }
-
-        res.status(200).json({ "total-amount-unshipped": amount });
-    });
-});
-
-
