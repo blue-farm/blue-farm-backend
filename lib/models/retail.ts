@@ -104,17 +104,18 @@ export const deleteOne = (orderId: number, callback: Function) => {
     });
 }
 
-export const getPage = (pageIdx:number, callback: Function) => {
+export const getPage = (sort:string, pageIdx:number, callback: Function) => {
     const queryString = `
       SELECT 
        *
       FROM retail
+      ORDER BY ?
       LIMIT ?, ? `
 
     const pageSize = 2;
     const firstItem = (pageIdx - 1) * pageSize; 
-
-    db.query(queryString, [firstItem, pageSize], (err: any, result: any) => {
+    
+    db.query(queryString, [sort, firstItem, pageSize], (err: any, result: any) => {
         if (err) { callback(err) }
 
         const rows = <RowDataPacket[]>result;
@@ -137,5 +138,5 @@ export const getPage = (pageIdx:number, callback: Function) => {
             orders.push(order);
         });
         callback(null, orders);
-    });
+    });    
 }
