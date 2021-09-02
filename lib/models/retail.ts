@@ -14,10 +14,12 @@ export const findAll = (callback: Function) => {
         const rows = <RowDataPacket[]>result;
         const orders: Retail[] = [];
 
+        var moment = require('moment');
+
         rows.forEach(row => {
             const order: Retail = {
                 id:         row.id,
-                date:       row.date,
+                date:       moment(row.date).format("YYYY-MM-DD"),
                 name:       row.name,
                 amount:     row.amount,
                 phone:      row.phone,
@@ -35,7 +37,7 @@ export const findAll = (callback: Function) => {
 }
 
 export const create = (order: Retail, callback: Function) => {
-    const queryString = "INSERT INTO retail (id, DATE_FORMAT(date, '%Y-%m-%d'), name, amount, phone, addr1, addr2, zip, isPaid, isShipped, delivery) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+    const queryString = "INSERT INTO retail (id, date, name, amount, phone, addr1, addr2, zip, isPaid, isShipped, delivery) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
     db.query(
         queryString,
@@ -58,10 +60,12 @@ export const findOne = (orderId: number, callback: Function) => {
     db.query(queryString, (err: any, result: any) => {
         if (err) { callback(err) }
 
+        var moment = require('moment');
+
         const row = (<RowDataPacket>result)[0];
         const order: Retail = {
             id:         row.id,
-            date:       row.date,
+            date:       moment(row.date).format("YYYY-MM-DD"),
             name:       row.name,
             amount:     row.amount,
             phone:      row.phone,
@@ -121,10 +125,12 @@ export const getPage = (sort:string, pageIdx:number, callback: Function) => {
         const rows = <RowDataPacket[]>result;
         const orders: Retail[] = [];
 
+        var moment = require('moment');
+        
         rows.forEach(row => {
             const order: Retail = {
                 id:         row.id,
-                date:       row.date,
+                date:       moment(row.date).format("YYYY-MM-DD"),
                 name:       row.name,
                 amount:     row.amount,
                 phone:      row.phone,
