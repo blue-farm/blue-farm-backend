@@ -222,7 +222,7 @@ export const findAld = (page: number, sort: any, callback: Function) => {
     let sortItem = `date DESC`;
 
     if (sort && (sort == `name` || sort == `amount` || sort == `pricePerKg` || sort == `dueDate`))
-        sortItem = sort + `ASC`;
+        sortItem = sort + ` ASC`;
 
     const countString = `
     SELECT 
