@@ -184,6 +184,7 @@ export const findAll = (callback: Function) => {
                 name: row.name,
                 totalAmount: row.totalAmount,
                 notShippedAmount: row.notShippedAmount,
+                shippedAmount: row.shippedAmount,
                 wholesales: []
             }
             companies.push(company);
@@ -295,6 +296,7 @@ export const findAld = (page: number, sort: any, callback: Function) => {
                         name: row.name,
                         totalAmount: row.totalAmount,
                         notShippedAmount: row.notShippedAmount,
+                        shippedAmount: row.shippedAmount,
                         wholesales: []
                     }
                     company.wholesales = wholesales.filter(element => element.company_id == company.id);
