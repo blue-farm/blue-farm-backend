@@ -172,11 +172,13 @@ export const findAll = (callback: Function) => {
         const row3 = <RowDataPacket[]>result[2];
         console.log(row3)
         let notShippedAmount: number = 0;
+        let shippedAmount: number = 0;
         let companies: Companies[] = [];
         const wholesales: Wholesale[] = [];
 
         row1.forEach(row => {
             notShippedAmount = row.notShippedAmount;
+            shippedAmount = row.shippedAmount;
         });
         row2.forEach(row => {
             const company: Companies = {
@@ -209,7 +211,8 @@ export const findAll = (callback: Function) => {
         });
         let data = {
             companies,
-            notShippedAmount
+            notShippedAmount,
+            shippedAmount
         }
         callback(null, data);
     });
@@ -243,11 +246,13 @@ export const findAld = (page: number, sort: any, callback: Function) => {
         const row2 = <RowDataPacket[]>result[1];
         // console.log(row2)
         let notShippedAmount: number = 0;
+        let shippedAmount: number = 0;
         const wholesales: Wholesale[] = [];
         let wholesales_ids: number[] = [];
 
         row1.forEach(row => {
             notShippedAmount = row.notShippedAmount;
+            shippedAmount = row.shippedAmount;
         });
         row2.forEach(row => {
             const wholesale: Wholesale = {
@@ -309,7 +314,8 @@ export const findAld = (page: number, sort: any, callback: Function) => {
             }
             let data = {
                 companies,
-                notShippedAmount
+                notShippedAmount,
+                shippedAmount
             }
             callback(null, data);
         });
