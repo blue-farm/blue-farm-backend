@@ -137,7 +137,8 @@ export const findAll = (callback: Function) => {
 
     const countString = `
     SELECT 
-        sum(CASE When isDelivered=0 Then amount Else 0 End ) As notShippedAmount
+        sum(CASE When isDelivered=0 Then amount Else 0 End ) As notShippedAmount,
+        sum(CASE When isDelivered=1 Then amount Else 0 End ) As shippedAmount
     FROM wholesale;
     `
     const findCompanyString = `
@@ -221,7 +222,8 @@ export const findAld = (page: number, sort: any, callback: Function) => {
 
     const countString = `
     SELECT 
-        sum(CASE When isDelivered=0 Then amount Else 0 End ) As notShippedAmount
+        sum(CASE When isDelivered=0 Then amount Else 0 End ) As notShippedAmount,
+        sum(CASE When isDelivered=1 Then amount Else 0 End ) As shippedAmount
     FROM wholesale;
     `
     const findAllString = `
