@@ -8,7 +8,10 @@ module.exports = router;
 
 // Get All Items
 router.get("/", async (req, res) => {
-    retailModel.findAll((err: Error, orders: Retail[]) => {
+    const sort: any = req.query.sort;
+    const pageIdx: number = Number(req.query.page);
+
+    retailModel.findAll(sort, pageIdx, (err: Error, orders: Retail[]) => {
         if (err) {
             return res.status(500).json({ "errorMessage": err.message });
         }
@@ -16,6 +19,44 @@ router.get("/", async (req, res) => {
         res.status(200).json({ "data": orders });
     });
 });
+/*
+// Get Items within the range
+router.get("/page/:sort/:page", async(req, res) => {
+    const sort: string = req.params.sort;
+    const pageIdx: number = Number(req.params.page);
+
+    retailModel.getPage(sort, pageIdx, (err:Error, orders: Retail[]) =>{
+        if(err){
+            return res.status(500).json({ "errorMessage": err.message });
+        }
+
+        res.status(200).json({ "data": orders });
+    });
+});
+
+// Get total amount shipped
+router.get("/shipped/:bShipped", async(req, res) => {
+    const bShipped: boolean = (req.params.bShipped == "true") ? true : false;
+
+    retailModel.getTotalAmount(bShipped, (err:Error, amount: number) =>{
+        if(err){
+            return res.status(500).json({ "errorMessage": err.message });
+        }
+
+        res.status(200).json({ "total-amount": amount });
+    });
+});
+
+// Get All Items
+router.get("/", async (req, res) => {
+    retailModel.findAll((err: Error, orders: Retail[]) => {
+        if (err) {
+            return res.status(500).json({ "errorMessage": err.message });
+        }
+
+        res.status(200).json({ "data": orders });
+    });
+});*/
 
 // Insert New Item
 router.post("/", async(req, res) => {
@@ -66,32 +107,5 @@ router.delete("/:id", async(req, res) => {
         }
 
         res.status(200).send();
-    });
-});
-
-// Get Items within the range
-router.get("/page/:sort/:page", async(req, res) => {
-    const sort: string = req.params.sort;
-    const pageIdx: number = Number(req.params.page);
-
-    retailModel.getPage(sort, pageIdx, (err:Error, orders: Retail[]) =>{
-        if(err){
-            return res.status(500).json({ "errorMessage": err.message });
-        }
-
-        res.status(200).json({ "data": orders });
-    });
-});
-
-// Get total amount shipped
-router.get("/shipped/:bShipped", async(req, res) => {
-    const bShipped: boolean = (req.params.bShipped == "true") ? true : false;
-
-    retailModel.getTotalAmount(bShipped, (err:Error, amount: number) =>{
-        if(err){
-            return res.status(500).json({ "errorMessage": err.message });
-        }
-
-        res.status(200).json({ "total-amount": amount });
     });
 });
