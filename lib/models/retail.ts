@@ -14,10 +14,12 @@ export const findAll = (callback: Function) => {
         const rows = <RowDataPacket[]>result;
         const orders: Retail[] = [];
 
+        var moment = require('moment');
+
         rows.forEach(row => {
             const order: Retail = {
                 id:         row.id,
-                date:       row.date,
+                date:       moment(row.date).format("YYYY-MM-DD"),
                 name:       row.name,
                 amount:     row.amount,
                 phone:      row.phone,
@@ -53,15 +55,17 @@ export const findOne = (orderId: number, callback: Function) => {
     const queryString = `
       SELECT *
       FROM retail
-      WHERE id=?`
+      WHERE id = ${orderId}`
 
-    db.query(queryString, orderId, (err: any, result: any) => {
+    db.query(queryString, (err: any, result: any) => {
         if (err) { callback(err) }
+
+        var moment = require('moment');
 
         const row = (<RowDataPacket>result)[0];
         const order: Retail = {
             id:         row.id,
-            date:       row.date,
+            date:       moment(row.date).format("YYYY-MM-DD"),
             name:       row.name,
             amount:     row.amount,
             phone:      row.phone,
@@ -96,34 +100,37 @@ export const deleteOne = (orderId: number, callback: Function) => {
     const queryString = `
       DELETE
       FROM retail
-      WHERE id=?`
+      WHERE id = ${orderId}`
 
-    db.query(queryString, orderId, (err: any, result: any) => {
+    db.query(queryString, (err: any, result: any) => {
         if (err) { callback(err) }
         callback(null);
     });
 }
 
-export const getPage = (pageIdx:number, callback: Function) => {
+export const getPage = (sort:string, pageIdx:number, callback: Function) => {
     const queryString = `
       SELECT 
        *
       FROM retail
+      ORDER BY ${sort}
       LIMIT ?, ? `
 
     const pageSize = 2;
     const firstItem = (pageIdx - 1) * pageSize; 
-
+    
     db.query(queryString, [firstItem, pageSize], (err: any, result: any) => {
         if (err) { callback(err) }
 
         const rows = <RowDataPacket[]>result;
         const orders: Retail[] = [];
 
+        var moment = require('moment');
+        
         rows.forEach(row => {
             const order: Retail = {
                 id:         row.id,
-                date:       row.date,
+                date:       moment(row.date).format("YYYY-MM-DD"),
                 name:       row.name,
                 amount:     row.amount,
                 phone:      row.phone,
@@ -137,5 +144,21 @@ export const getPage = (pageIdx:number, callback: Function) => {
             orders.push(order);
         });
         callback(null, orders);
+    });    
+}
+
+// Get total amount based on isShipped column
+export const getTotalAmount = (bShipped: boolean, callback: Function) => {
+    const queryString = `
+      SELECT SUM(CASE WHEN isShipped = ${bShipped} THEN amount ELSE 0 END) AS total_amount
+      FROM retail`
+
+    db.query(queryString, (err: any, result: any) => {
+        if (err) { callback(err) }
+
+        const row = (<RowDataPacket[]>result)[0];
+        const amount: number = row.total_amount;
+
+        callback(null, amount);
     });
 }
