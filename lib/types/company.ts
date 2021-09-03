@@ -15,5 +15,6 @@ export interface Companies extends BasicCompany {
   name: string,
   totalAmount: number,
   notShippedAmount: number,
+  shippedAmount: number,
   wholesales:Wholesale[];
 }

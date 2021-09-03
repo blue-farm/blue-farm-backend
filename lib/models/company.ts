@@ -8,8 +8,9 @@ export const findAll = (callback: Function) => {
     const queryString = `
       SELECT 
        *
-      FROM company `
-      console.log(queryString)
+      FROM company 
+      WHERE isDelete=false`
+    console.log(queryString)
 
     db.query(queryString, (err: any, result: any) => {
         if (err) { callback(err) }
@@ -55,10 +56,11 @@ export const findOne = (companyId: number, callback: Function) => {
         id,
         name,
         phone,
-        tell
+        tell,
+        isDelete
       FROM company
       WHERE id=?`
-      console.log(queryString)
+    console.log(queryString)
 
     db.query(queryString, companyId, (err: any, result: any) => {
         if (err) { callback(err) }
@@ -88,11 +90,12 @@ export const update = (company: Company, callback: Function) => {
     );
 }
 
-export const deleteOne = (companyId:any, callback: Function) => {
-    const queryString = `DELETE FROM company WHERE id=?`;
+export const deleteOne = (companyId: any, callback: Function) => {
+    // const queryString = `DELETE FROM company WHERE id=?`;
+    const queryString = `UPDATE company SET isDelete=true WHERE id=?`;
     db.query(
         queryString,
-        [ companyId],
+        [companyId],
         (err: any, result: any) => {
             if (err) { callback(err) }
             callback(null);

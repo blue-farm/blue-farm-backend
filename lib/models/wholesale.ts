@@ -137,7 +137,8 @@ export const findAll = (callback: Function) => {
 
     const countString = `
     SELECT 
-        sum(CASE When isDelivered=0 Then amount Else 0 End ) As notShippedAmount
+        sum(CASE When isDelivered=0 Then amount Else 0 End ) As notShippedAmount,
+        sum(CASE When isDelivered=1 Then amount Else 0 End ) As shippedAmount
     FROM wholesale;
     `
     const findCompanyString = `
@@ -147,7 +148,7 @@ export const findAll = (callback: Function) => {
         sum(w.amount) As totalAmount,
         sum(CASE When w.isDelivered=0 Then w.amount Else 0 End ) As notShippedAmount
       FROM wholesale AS w
-      INNER JOIN company AS c ON c.id=w.company_id
+      INNER JOIN company AS c ON c.id=w.company_id AND c.isDelete=false
       GROUP BY w.company_id;
       `
 
@@ -171,11 +172,13 @@ export const findAll = (callback: Function) => {
         const row3 = <RowDataPacket[]>result[2];
         console.log(row3)
         let notShippedAmount: number = 0;
+        let shippedAmount: number = 0;
         let companies: Companies[] = [];
         const wholesales: Wholesale[] = [];
 
         row1.forEach(row => {
             notShippedAmount = row.notShippedAmount;
+            shippedAmount = row.shippedAmount;
         });
         row2.forEach(row => {
             const company: Companies = {
@@ -183,6 +186,7 @@ export const findAll = (callback: Function) => {
                 name: row.name,
                 totalAmount: row.totalAmount,
                 notShippedAmount: row.notShippedAmount,
+                shippedAmount: row.shippedAmount,
                 wholesales: []
             }
             companies.push(company);
@@ -207,24 +211,30 @@ export const findAll = (callback: Function) => {
         });
         let data = {
             companies,
-            notShippedAmount
+            notShippedAmount,
+            shippedAmount
         }
         callback(null, data);
     });
 }
 
-export const findAld = (page: number, callback: Function) => {
+export const findAld = (page: number, sort: any, callback: Function) => {
+    let sortItem = `date DESC`;
+
+    if (sort && (sort == `name` || sort == `amount` || sort == `pricePerKg` || sort == `dueDate`))
+        sortItem = sort + ` ASC`;
 
     const countString = `
     SELECT 
-        sum(CASE When isDelivered=0 Then amount Else 0 End ) As notShippedAmount
+        sum(CASE When isDelivered=0 Then amount Else 0 End ) As notShippedAmount,
+        sum(CASE When isDelivered=1 Then amount Else 0 End ) As shippedAmount
     FROM wholesale;
     `
     const findAllString = `
       SELECT 
         *
-      FROM wholesale
-      ORDER BY date DESC LIMIT 20 OFFSET ${page * 20};
+      FROM wholesale 
+      ORDER BY ${sortItem} LIMIT 20 OFFSET ${page * 20};
       `
     db.query(countString + findAllString, (err: any, result: any) => {
         if (err) { callback(err) }
@@ -236,11 +246,13 @@ export const findAld = (page: number, callback: Function) => {
         const row2 = <RowDataPacket[]>result[1];
         // console.log(row2)
         let notShippedAmount: number = 0;
+        let shippedAmount: number = 0;
         const wholesales: Wholesale[] = [];
         let wholesales_ids: number[] = [];
 
         row1.forEach(row => {
             notShippedAmount = row.notShippedAmount;
+            shippedAmount = row.shippedAmount;
         });
         row2.forEach(row => {
             const wholesale: Wholesale = {
@@ -271,7 +283,7 @@ export const findAld = (page: number, callback: Function) => {
             sum(w.amount) As totalAmount,
             sum(CASE When w.isDelivered=0 Then w.amount Else 0 End ) As notShippedAmount
           FROM wholesale AS w
-          INNER JOIN company AS c ON c.id=w.company_id
+          INNER JOIN company AS c ON c.id=w.company_id AND  c.isDelete=false
           WHERE w.company_id = '${element}' 
           GROUP BY w.company_id;
           `
@@ -289,6 +301,7 @@ export const findAld = (page: number, callback: Function) => {
                         name: row.name,
                         totalAmount: row.totalAmount,
                         notShippedAmount: row.notShippedAmount,
+                        shippedAmount: row.shippedAmount,
                         wholesales: []
                     }
                     company.wholesales = wholesales.filter(element => element.company_id == company.id);
@@ -301,7 +314,8 @@ export const findAld = (page: number, callback: Function) => {
             }
             let data = {
                 companies,
-                notShippedAmount
+                notShippedAmount,
+                shippedAmount
             }
             callback(null, data);
         });
