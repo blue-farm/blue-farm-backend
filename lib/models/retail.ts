@@ -1,6 +1,7 @@
 import { Retail, BasicRetail } from "../types/retail";
 var db = require('../db');
 import { OkPacket, RowDataPacket } from "mysql2";
+var moment = require('moment');
 
 
 export const findAll = (sort: any, pageIdx: number, callback: Function) => {
@@ -13,8 +14,8 @@ export const findAll = (sort: any, pageIdx: number, callback: Function) => {
 
     const queryGetAmountString = `
       SELECT 
-        SUM(CASE WHEN isShipped = true THEN amount ELSE 0 END) AS shipped_amount,
-        SUM(CASE WHEN isShipped = false THEN amount ELSE 0 END) AS unshipped_amount
+        SUM(CASE WHEN isShipped = true THEN amount ELSE 0 END) AS shippedAmount,
+        SUM(CASE WHEN isShipped = false THEN amount ELSE 0 END) AS unShippedAmount
       FROM retail;`
 
     db.query(queryGetItemString + queryGetAmountString, (err: any, result: any) => {
@@ -24,7 +25,6 @@ export const findAll = (sort: any, pageIdx: number, callback: Function) => {
         const row2 = <RowDataPacket[]>result[1];
         
         const orders: Retail[] = [];
-        var moment = require('moment');
 
         row1.forEach(row => {
             const order: Retail = {
@@ -43,18 +43,18 @@ export const findAll = (sort: any, pageIdx: number, callback: Function) => {
             orders.push(order);
         });
 
-        var s_amount: number = 0;
-        var us_amount: number = 0;
+        let shippedAmount: number = 0;
+        let unShippedAmount: number = 0;
 
         row2.forEach(row => {
-            s_amount = row.shipped_amount;
-            us_amount = row.unshipped_amount;    
+            shippedAmount = row.shippedAmount;
+            unShippedAmount = row.unShippedAmount;    
         });
             
         let rstData = {
             orders,
-            s_amount,
-            us_amount
+            shippedAmount,
+            unShippedAmount
         }
 
         callback(null, rstData);
@@ -84,8 +84,6 @@ export const findOne = (orderId: number, callback: Function) => {
 
     db.query(queryString, (err: any, result: any) => {
         if (err) { callback(err) }
-
-        var moment = require('moment');
 
         const row = (<RowDataPacket>result)[0];
         const order: Retail = {
