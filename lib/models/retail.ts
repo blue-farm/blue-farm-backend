@@ -10,7 +10,7 @@ export const findAll = (sort: any, pageIdx: number, callback: Function) => {
        *
       FROM retail
       ORDER BY ${sort}
-      LIMIT ${pageIdx * 2}, 2;`
+      LIMIT ${pageIdx * 20}, 20;`
 
     const queryGetAmountString = `
       SELECT 
