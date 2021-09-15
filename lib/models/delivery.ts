@@ -30,8 +30,8 @@ export const findAll = (companyID: number, callback: Function) => {
       GROUP BY w.id;
       `
 
-      console.log(companyString)
-      console.log(wholesaleString)
+    console.log(companyString)
+    console.log(wholesaleString)
 
     db.query(companyString + wholesaleString, (err: any, result: any) => {
         if (err) { callback(err) }
@@ -85,6 +85,9 @@ export const findAll = (companyID: number, callback: Function) => {
             let deliveries: Delivery[] = [];
             for (let index = 0; index < result.length; index++) {
                 const rows = <RowDataPacket[]>result[index];
+                console.log('rows')
+                console.log(rows)
+
                 let wholesaleId: number;
                 rows.forEach(row => {
                     const delivery: Delivery = {
