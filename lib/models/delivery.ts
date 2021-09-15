@@ -18,7 +18,7 @@ export const findAll = (companyID: number, callback: Function) => {
     `
     const wholesaleString = `
       SELECT 
-        w.wholesale_id AS id,
+        w.id AS id,
         w.amount AS amount,
         sum(d.amount) As deliveryAmount,
         w.date AS date,
