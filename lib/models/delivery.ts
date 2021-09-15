@@ -14,7 +14,7 @@ export const findAll = (companyID: number, callback: Function) => {
         id,
         name
     FROM  company
-    WHERE company_id = '${companyID}';
+    WHERE id = '${companyID}';
     `
     const wholesaleString = `
       SELECT 

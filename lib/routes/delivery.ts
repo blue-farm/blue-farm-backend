@@ -10,6 +10,8 @@ var router = express.Router();
 router.get("/", async (req, res) => {
     console.log("/delivery get")
     const companyID: number = Number(req.query.company);
+    if (!companyID)
+        res.status(500).json({ "errorMessage": "company id is null" });
     deliveryModel.findAll(companyID, (err: Error, delivery: Delivery[]) => {
         if (err) {
             return res.status(500).json({ "errorMessage": err.message });
