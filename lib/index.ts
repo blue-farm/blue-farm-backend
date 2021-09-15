@@ -17,6 +17,7 @@ dotenv.config();
 const wholesaleRouter = require('./routes/wholesale');
 const retailRouter = require('./routes/retail');
 const companyRouter = require('./routes/company');
+const deliveryRouter = require('./routes/delivery');
 
 const port = 80;
 
@@ -36,6 +37,7 @@ app.get('/', (req, res) => {
 app.use('/wholesale', wholesaleRouter);
 app.use('/retail', retailRouter);
 app.use('/company', companyRouter);
+app.use('/delivery', deliveryRouter);
 
 app.listen(port, () => {
     console.log('The application is listening on port ' + port);

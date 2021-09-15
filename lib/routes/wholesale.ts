@@ -28,10 +28,15 @@ router.get("/testtt", async (req: Request, res: Response) => {
 
 router.get("/", async (req, res) => {
     console.log("/wholesale get")
-    const page: number = Number(req.query.page);
-    const sort: any = req.query.sort;
+    let page: number = Number(req.query.page);
+    let sort: any = req.query.sort;
+    console.log('page')
     console.log(page)
-    wholesaleModel.findAld(page, sort,(err: Error, wholesale: Wholesale[]) => {
+    if (page == undefined || page == null)
+        page = 0;
+    if (sort == undefined || sort == null)
+        sort = 'date';
+    wholesaleModel.findAld(page, sort, (err: Error, wholesale: Wholesale[]) => {
         if (err) {
             return res.status(500).json({ "errorMessage": err.message });
         }
@@ -53,8 +58,8 @@ router.post("/", async (req: Request, res: Response) => {
 
 router.get("/:id", async (req: Request, res: Response) => {
     console.log("/wholesale get id")
-    const companyId: number = Number(req.params.id);
-    wholesaleModel.findOne(companyId, (err: Error, wholesale: Wholesale) => {
+    const wholesaleId: number = Number(req.params.id);
+    wholesaleModel.findOne(wholesaleId, (err: Error, wholesale: Wholesale) => {
         if (err) {
             return res.status(500).json({ "message": err.message });
         }
