@@ -28,8 +28,11 @@ export const findAll = (companyID: number, callback: Function) => {
       INNER JOIN delivery AS d ON w.id=d.wholesale_id
       WHERE w.company_id=${companyID}
       GROUP BY w.id;
-
       `
+
+      console.log(companyString)
+      console.log(wholesaleString)
+
     db.query(companyString + wholesaleString, (err: any, result: any) => {
         if (err) { callback(err) }
         const row1 = <RowDataPacket[]>result[0];
@@ -44,6 +47,8 @@ export const findAll = (companyID: number, callback: Function) => {
                 name: row.name,
             }
         });
+        console.log('company')
+        console.log(company)
         row2.forEach(row => {
             const wholesale: WholesaleWithDelivery = {
                 id: row.id,
@@ -57,11 +62,14 @@ export const findAll = (companyID: number, callback: Function) => {
             wholesales.push(wholesale);
             // wholesales_ids.push(wholesale.company_id);
         });
+        console.log('wholesales')
+        console.log(wholesales)
         // wholesales_ids = Array.from(new Set(wholesales_ids));
 
         let findDeliveryString = ``;
         for (let index = 0; index < wholesales.length; index++) {
             const element = wholesales[index];
+            console.log('element')
             console.log(element)
             findDeliveryString += `
             SELECT 
@@ -70,12 +78,14 @@ export const findAll = (companyID: number, callback: Function) => {
             WHERE wholesale_id = '${element.id}';
           `
         }
+        console.log('findDeliveryString')
+        console.log(findDeliveryString)
         db.query(findDeliveryString, (err: any, result: any) => {
             if (err) { callback(err) }
             let deliveries: Delivery[] = [];
             for (let index = 0; index < result.length; index++) {
                 const rows = <RowDataPacket[]>result[index];
-                let wholesaleId:number;
+                let wholesaleId: number;
                 rows.forEach(row => {
                     const delivery: Delivery = {
                         id: row.id,
@@ -90,7 +100,7 @@ export const findAll = (companyID: number, callback: Function) => {
                     wholesaleId = row.id;
                     deliveries.push(delivery)
                 });
-                const i  = wholesales.findIndex(element => element.id == wholesaleId);
+                const i = wholesales.findIndex(element => element.id == wholesaleId);
                 wholesales[i].delivery = deliveries;
             }
             let data = {
@@ -139,6 +149,8 @@ export const findOne = (deliveryID: number, callback: Function) => {
         if (err) { callback(err) }
 
         const row = (<RowDataPacket>result)[0];
+        if (!row)
+            callback(null)
         const delivery: Delivery = {
             id: row.id,
             date: moment(row.date).format("YYYY-MM-DD"),
