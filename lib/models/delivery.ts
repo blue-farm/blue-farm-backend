@@ -104,7 +104,7 @@ export const findAll = (companyID: number, callback: Function) => {
 
 
 export const create = (wholesaleId: number, delivery: BasicDelivery, callback: Function) => {
-    const queryString = "INSERT INTO delivery (company_id, date, amount, pricePerKg, isDelivered, isPaid, deliveryDate) VALUES (?, ?, ?, ?, ?, ?, ?)"
+    const queryString = "INSERT INTO delivery (wholsale_id, date, amount, pricePerKg, isDelivered, isPaid, deliveryDate) VALUES (?, ?, ?, ?, ?, ?, ?)"
     console.log(queryString)
 
     db.query(
