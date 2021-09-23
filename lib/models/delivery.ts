@@ -91,10 +91,10 @@ export const findAll = (companyID: number, callback: Function) => {
                 console.log(rows)
 
                 let wholesaleId: number;
-                for (let index = 0; index < rows.length; index++) {
-                    const element = rows[index];
+                // for (let index = 0; index < rows.length; index++) {
+                //     const element = rows[index];
                     
-                }
+                // }
                 rows.forEach(row => {
                     const delivery: Delivery = {
                         id: row.id,
