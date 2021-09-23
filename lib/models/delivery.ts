@@ -83,12 +83,18 @@ export const findAll = (companyID: number, callback: Function) => {
         db.query(findDeliveryString, (err: any, result: any) => {
             if (err) { callback(err) }
             let deliveries: Delivery[] = [];
+            console.log('result')
+            console.log(result)
             for (let index = 0; index < result.length; index++) {
                 const rows = <RowDataPacket[]>result[index];
                 console.log('rows')
                 console.log(rows)
 
                 let wholesaleId: number;
+                for (let index = 0; index < rows.length; index++) {
+                    const element = rows[index];
+                    
+                }
                 rows.forEach(row => {
                     const delivery: Delivery = {
                         id: row.id,
