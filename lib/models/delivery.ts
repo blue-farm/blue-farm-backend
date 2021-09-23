@@ -106,12 +106,13 @@ export const findAll = (companyID: number, callback: Function) => {
                         deliveryDate: row.deliveryDate,
                         wholesale_id: row.wholesale_id
                     }
-                    wholesaleId = row.id;
+                    wholesaleId = row.wholesale_id;
                     deliveries.push(delivery)
                 });
                 const i = wholesales.findIndex(element => element.id == wholesaleId);
                 console.log('wholesales[i]')
                 console.log(wholesales[i])
+                console.log(wholesales)
                 wholesales[i].delivery = deliveries;
             }
             let data = {
