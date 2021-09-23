@@ -75,7 +75,7 @@ export const findAll = (companyID: number, callback: Function) => {
             SELECT 
                 *
             FROM delivery 
-            WHERE wholesale_id = ${element.id};
+            WHERE wholesale_id=${element.id};
           `
         }
         console.log('findDeliveryString')
