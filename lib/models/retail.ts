@@ -11,7 +11,7 @@ export const findAll = (sort: any, pageIdx: number, isShipped: boolean, callback
        *
       FROM retail
       ORDER BY ${sort}`
-    if (isShipped != undefined || isShipped != null || isShipped != NaN)
+    if (isShipped != undefined && isShipped != null )
         queryGetItemString += ` WHERE isShipped=${isShipped}`
 
     queryGetItemString += + ` LIMIT ${pageIdx * 20}, 20;`
