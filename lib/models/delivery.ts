@@ -20,7 +20,8 @@ export const findAll = (companyID: number, callback: Function) => {
       SELECT 
         w.id AS id,
         w.amount AS amount,
-        sum(d.amount) As deliveryAmount,
+        SUM(d.amount) As deliveryAmount,
+        SUM(CASE WHEN d.isDelivered = false THEN d.amount ELSE 0 END) AS notDeliveryAmount
         w.date AS date,
         w.dueDate AS dueDate,
         w.company_id AS company_id
@@ -53,8 +54,8 @@ export const findAll = (companyID: number, callback: Function) => {
             const wholesale: WholesaleWithDelivery = {
                 id: row.id,
                 date: moment(row.date).format("YYYY-MM-DD"),
-                deliveryAmount: row.amount,
-                notDeliveryAmount: row.deliveryAmount,
+                deliveryAmount: row.deliveryAmount,
+                notDeliveryAmount: row.notDeliveryAmount,
                 dueDate: row.dueDate,
                 company_id: row.company_id,
                 delivery: []
