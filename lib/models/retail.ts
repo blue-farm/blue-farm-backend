@@ -15,6 +15,7 @@ export const findAll = (sort: any, pageIdx: number, isShipped: boolean, callback
         queryGetItemString += ` WHERE isShipped=${isShipped}`
 
     queryGetItemString += + ` LIMIT ${pageIdx * 20}, 20;`
+    console.log(queryGetItemString)
 
     const queryGetAmountString = `
       SELECT 
