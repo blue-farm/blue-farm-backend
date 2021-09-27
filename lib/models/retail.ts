@@ -10,8 +10,8 @@ export const findAll = (sort: any, pageIdx: number, isShipped: boolean, callback
       SELECT 
        *
       FROM retail
-      ORDER BY ${sort}
       WHERE isShipped=${isShipped}
+      ORDER BY ${sort}
       LIMIT ${pageIdx * 20}, 20;`
     // if (isShipped != undefined && isShipped != null)
     // queryGetItemString += ` WHERE isShipped=${isShipped}`
