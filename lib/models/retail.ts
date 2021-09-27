@@ -4,13 +4,17 @@ import { OkPacket, RowDataPacket } from "mysql2";
 var moment = require('moment');
 
 
-export const findAll = (sort: any, pageIdx: number, callback: Function) => {
-    const queryGetItemString = `
+export const findAll = (sort: any, pageIdx: number, isShipped: boolean, callback: Function) => {
+
+    let queryGetItemString = `
       SELECT 
        *
       FROM retail
-      ORDER BY ${sort}
-      LIMIT ${pageIdx * 20}, 20;`
+      ORDER BY ${sort}`
+    if (isShipped != undefined || isShipped != null)
+        queryGetItemString += ` WHERE isShipped=${isShipped}`
+
+    queryGetItemString += + ` LIMIT ${pageIdx * 20}, 20;`
 
     const queryGetAmountString = `
       SELECT 
@@ -23,22 +27,22 @@ export const findAll = (sort: any, pageIdx: number, callback: Function) => {
 
         const row1 = <RowDataPacket[]>result[0];
         const row2 = <RowDataPacket[]>result[1];
-        
+
         const orders: Retail[] = [];
 
         row1.forEach(row => {
             const order: Retail = {
-                id:         row.id,
-                date:       moment(row.date).format("YYYY-MM-DD"),
-                name:       row.name,
-                amount:     row.amount,
-                phone:      row.phone,
-                addr1:      row.addr1,
-                addr2:      row.addr2,
-                zip:        row.zip,
-                isPaid:     row.isPaid,
-                isShipped:  row.isShipped,
-                delivery:   row.delivery,
+                id: row.id,
+                date: moment(row.date).format("YYYY-MM-DD"),
+                name: row.name,
+                amount: row.amount,
+                phone: row.phone,
+                addr1: row.addr1,
+                addr2: row.addr2,
+                zip: row.zip,
+                isPaid: row.isPaid,
+                isShipped: row.isShipped,
+                delivery: row.delivery,
             }
             orders.push(order);
         });
@@ -48,9 +52,9 @@ export const findAll = (sort: any, pageIdx: number, callback: Function) => {
 
         row2.forEach(row => {
             shippedAmount = row.shippedAmount;
-            unShippedAmount = row.unShippedAmount;    
+            unShippedAmount = row.unShippedAmount;
         });
-            
+
         let rstData = {
             orders,
             shippedAmount,
@@ -58,7 +62,7 @@ export const findAll = (sort: any, pageIdx: number, callback: Function) => {
         }
 
         callback(null, rstData);
-    });    
+    });
 }
 
 export const create = (order: Retail, callback: Function) => {
@@ -87,17 +91,17 @@ export const findOne = (orderId: number, callback: Function) => {
 
         const row = (<RowDataPacket>result)[0];
         const order: Retail = {
-            id:         row.id,
-            date:       moment(row.date).format("YYYY-MM-DD"),
-            name:       row.name,
-            amount:     row.amount,
-            phone:      row.phone,
-            addr1:      row.addr1,
-            addr2:      row.addr2,
-            zip:        row.zip,
-            isPaid:     row.isPaid,
-            isShipped:  row.isShipped,
-            delivery:   row.delivery,
+            id: row.id,
+            date: moment(row.date).format("YYYY-MM-DD"),
+            name: row.name,
+            amount: row.amount,
+            phone: row.phone,
+            addr1: row.addr1,
+            addr2: row.addr2,
+            zip: row.zip,
+            isPaid: row.isPaid,
+            isShipped: row.isShipped,
+            delivery: row.delivery,
         }
         callback(null, order);
     });

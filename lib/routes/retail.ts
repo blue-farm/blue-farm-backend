@@ -10,11 +10,13 @@ module.exports = router;
 router.get("/", async (req, res) => {
     let sort: any = req.query.sort;
     let page: number = Number(req.query.page);
+    let isShipped: any = req.query.isShipped;
+
     if (page == undefined || page == null)
         page = 0;
     if (sort == undefined || sort == null)
         sort = 'date';
-    retailModel.findAll(sort, page, (err: Error, orders: Retail[]) => {
+    retailModel.findAll(sort, page, isShipped, (err: Error, orders: Retail[]) => {
         if (err) {
             return res.status(500).json({ "errorMessage": err.message });
         }
