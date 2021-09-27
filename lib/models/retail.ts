@@ -10,10 +10,12 @@ export const findAll = (sort: any, pageIdx: number, isShipped: boolean, callback
       SELECT 
        *
       FROM retail
-      ORDER BY ${sort}`
+      ORDER BY ${sort}
+      WHERE isShipped=${isShipped}
+      LIMIT ${pageIdx * 20}, 20;`
     // if (isShipped != undefined && isShipped != null)
-    queryGetItemString += ` WHERE isShipped=${isShipped}`
-    queryGetItemString += ` LIMIT ${pageIdx * 20}, 20;`
+    // queryGetItemString += ` WHERE isShipped=${isShipped}`
+    // queryGetItemString += ` LIMIT ${pageIdx * 20}, 20;`
     console.log(isShipped)
 
     console.log(queryGetItemString)
@@ -23,6 +25,9 @@ export const findAll = (sort: any, pageIdx: number, isShipped: boolean, callback
         SUM(CASE WHEN isShipped = true THEN amount ELSE 0 END) AS shippedAmount,
         SUM(CASE WHEN isShipped = false THEN amount ELSE 0 END) AS unShippedAmount
       FROM retail;`
+
+    console.log(queryGetAmountString)
+
 
     db.query(queryGetItemString + queryGetAmountString, (err: any, result: any) => {
         if (err) { callback(err) }
