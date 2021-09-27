@@ -8,9 +8,14 @@ module.exports = router;
 
 // Get All Items
 router.get("/", async (req, res) => {
+
+    function queryParamToBool(value:any) {
+        return ((value+'').toLowerCase() === 'true')
+      }
+
     let sort: any = req.query.sort;
     let page: number = Number(req.query.page);
-    let isShipped: any = req.query.isShipped;
+    let isShipped: boolean = queryParamToBool(req.query.isShipped);
 
     if (page == undefined || page == null)
         page = 0;
@@ -24,6 +29,7 @@ router.get("/", async (req, res) => {
         res.status(200).json({ "data": orders });
     });
 });
+
 
 // Insert New Item
 router.post("/", async (req, res) => {
