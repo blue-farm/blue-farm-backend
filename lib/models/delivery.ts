@@ -82,10 +82,10 @@ export const findAll = (companyID: number, callback: Function) => {
         console.log(findDeliveryString)
         db.query(findDeliveryString, (err: any, result: any) => {
             if (err) { callback(err) }
-            let deliveries: Delivery[] = [];
             console.log('result')
             console.log(result)
             for (let index = 0; index < result.length; index++) {
+            let deliveries: Delivery[] = [];
                 const rows = <RowDataPacket[]>result[index];
                 console.log('rows')
                 console.log(rows)
