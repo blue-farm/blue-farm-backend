@@ -21,7 +21,7 @@ export const findAll = (companyID: number, callback: Function) => {
         w.id AS id,
         w.amount AS amount,
         SUM(d.amount) As deliveryAmount,
-        SUM(CASE WHEN d.isDelivered = false THEN d.amount ELSE 0 END) AS notDeliveryAmount
+        SUM(CASE WHEN d.isDelivered = false THEN d.amount ELSE 0 END) AS notDeliveryAmount,
         w.date AS date,
         w.dueDate AS dueDate,
         w.company_id AS company_id
